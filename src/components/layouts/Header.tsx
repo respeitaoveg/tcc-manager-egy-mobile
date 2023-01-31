@@ -1,0 +1,108 @@
+import { ReactNode } from 'react'
+import {
+  Box,
+  Flex,
+  HStack,
+  Link,
+  IconButton,
+  Button,
+  useColorModeValue,
+  Stack,
+  useDisclosure,
+  useBoolean,
+} from '@chakra-ui/react'
+import { HamburgerIcon, CloseIcon, ChevronLeftIcon } from '@chakra-ui/icons'
+// import SidePaneDrawer from '../Drawer'
+// import Cart from '../products/ordered/Cart'
+// import ResumeFooter from '../products/ordered/ResumeFooter'
+
+const Links = [
+  {
+    label: 'Principal',
+    route: '/'
+  },
+  {
+    label: 'Perfil',
+    route: '/admin'
+  },
+  {
+    label: 'Sair',
+    route: '/login'
+  }
+]
+
+const NavLink = (props: {children: ReactNode, router: string}) => (
+  <Link
+    px={2}
+    py={1}
+    rounded={'md'}
+    _hover={{
+      textDecoration: 'none',
+      bg: useColorModeValue('gray.200', 'gray.700'),
+    }}
+    href={props.router}>
+    {props.children}
+  </Link>
+)
+
+export default function Header() {
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  const { isOpen: isOpenSidePaneDrawer, onToggle: onToggleSidepaneDrawer } = useDisclosure()
+  const [ isFindedUser, setFindedUser ] = useBoolean(false)
+
+  return (
+    <>
+      <Box as='header' bg={useColorModeValue('gray.100', 'gray.900')} px={4}>
+        <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
+          <IconButton
+            size={'md'}
+            icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}
+            aria-label={'Open Menu'}
+            display={{ md: 'none' }}
+            onClick={isOpen ? onClose : onOpen}
+          />
+          <HStack spacing={8} alignItems={'center'}>
+            <Box>Logo</Box>
+            <HStack
+              as={'nav'}
+              spacing={4}
+              display={{ base: 'none', md: 'flex' }}>
+              {Links.map((link, index) => (
+                <NavLink key={index} router={link.route}>{link.label}</NavLink>
+              ))}
+            </HStack>
+          </HStack>
+          <Flex alignItems={'center'}>
+            <Button
+              variant={'solid'}
+              colorScheme={'teal'}
+              size={'sm'}
+              leftIcon={<ChevronLeftIcon />}
+              onClick={onToggleSidepaneDrawer}
+            >
+              Pedido
+            </Button>
+          </Flex>
+        </Flex>
+
+        {isOpen ? (
+          <Box pb={4} display={{ md: 'none' }}>
+            <Stack as={'nav'} spacing={4}>
+              {Links.map((link, index) => (
+                <NavLink key={index} router={link.route}>{link.label}</NavLink>
+              ))}
+            </Stack>
+          </Box>
+        ) : null}
+      </Box>
+
+      {/* <SidePaneDrawer
+        isOpen={isOpenSidePaneDrawer}
+        onToggle={onToggleSidepaneDrawer}
+        drawerHeader="Pedido"
+        drawerBody={Cart(onToggleSidepaneDrawer, setFindedUser)}
+        drawerFooter={ResumeFooter(onToggleSidepaneDrawer, isFindedUser)}
+      /> */}
+    </>
+  )
+}
