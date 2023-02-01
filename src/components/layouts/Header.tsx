@@ -9,9 +9,9 @@ import {
   useColorModeValue,
   Stack,
   useDisclosure,
-  useBoolean,
+  useBoolean
 } from '@chakra-ui/react'
-import { HamburgerIcon, CloseIcon, ChevronLeftIcon } from '@chakra-ui/icons'
+import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons'
 // import SidePaneDrawer from '../Drawer'
 // import Cart from '../products/ordered/Cart'
 // import ResumeFooter from '../products/ordered/ResumeFooter'
@@ -31,28 +31,30 @@ const Links = [
   }
 ]
 
-const NavLink = (props: {children: ReactNode, router: string}) => (
+const NavLink = (props: { children: ReactNode; router: string }) => (
   <Link
     px={2}
     py={1}
     rounded={'md'}
     _hover={{
       textDecoration: 'none',
-      bg: useColorModeValue('gray.200', 'gray.700'),
+      bg: useColorModeValue('gray.200', 'gray.700')
     }}
-    href={props.router}>
+    href={props.router}
+  >
     {props.children}
   </Link>
 )
 
 export default function Header() {
   const { isOpen, onOpen, onClose } = useDisclosure()
-  const { isOpen: isOpenSidePaneDrawer, onToggle: onToggleSidepaneDrawer } = useDisclosure()
-  const [ isFindedUser, setFindedUser ] = useBoolean(false)
+  const { isOpen: isOpenSidePaneDrawer, onToggle: onToggleSidepaneDrawer } =
+    useDisclosure()
+  const [isFindedUser, setFindedUser] = useBoolean(false)
 
   return (
     <>
-      <Box as='header' bg={useColorModeValue('gray.100', 'gray.900')} px={4}>
+      <Box as="header" bg={useColorModeValue('gray.100', 'gray.900')} px={4}>
         <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
           <IconButton
             size={'md'}
@@ -66,9 +68,12 @@ export default function Header() {
             <HStack
               as={'nav'}
               spacing={4}
-              display={{ base: 'none', md: 'flex' }}>
+              display={{ base: 'none', md: 'flex' }}
+            >
               {Links.map((link, index) => (
-                <NavLink key={index} router={link.route}>{link.label}</NavLink>
+                <NavLink key={index} router={link.route}>
+                  {link.label}
+                </NavLink>
               ))}
             </HStack>
           </HStack>
@@ -77,7 +82,6 @@ export default function Header() {
               variant={'solid'}
               colorScheme={'teal'}
               size={'sm'}
-              leftIcon={<ChevronLeftIcon />}
               onClick={onToggleSidepaneDrawer}
             >
               Pedido
@@ -89,7 +93,9 @@ export default function Header() {
           <Box pb={4} display={{ md: 'none' }}>
             <Stack as={'nav'} spacing={4}>
               {Links.map((link, index) => (
-                <NavLink key={index} router={link.route}>{link.label}</NavLink>
+                <NavLink key={index} router={link.route}>
+                  {link.label}
+                </NavLink>
               ))}
             </Stack>
           </Box>

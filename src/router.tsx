@@ -1,11 +1,16 @@
 import { createBrowserRouter } from 'react-router-dom'
 import App from './App'
+import ProtectedRoute from './components/auth/ProtectedRoute'
 import Login from './pages/login'
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <App />,
+    element: (
+      <ProtectedRoute>
+        <App />
+      </ProtectedRoute>
+    ),
   },
   {
     path: '/login',
@@ -14,3 +19,9 @@ const router = createBrowserRouter([
 ])
 
 export default router
+
+
+
+
+
+
