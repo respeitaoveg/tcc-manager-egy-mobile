@@ -10,11 +10,23 @@ import {
   Button,
   useColorModeValue
 } from '@chakra-ui/react'
+import { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { useAuth } from '../contexts/AuthContext'
 
 export default function Login() {
+  const auth = useAuth()
+  const navigate = useNavigate()
+
   function handleClickLogin() {
     console.log('login')
+
+    auth?.login()
   }
+
+  useEffect(() => {
+    if (auth?.user) navigate('/')
+  }, [auth?.user])
 
   return (
     <Flex
