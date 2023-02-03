@@ -10,7 +10,7 @@ import {
   Button,
   useColorModeValue
 } from '@chakra-ui/react'
-import { useEffect } from 'react'
+import { ChangeEvent, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
 
@@ -18,15 +18,24 @@ export default function Login() {
   const auth = useAuth()
   const navigate = useNavigate()
 
-  function handleClickLogin() {
-    console.log('login')
+  const [loginInput, setLoginInput] = useState('')
+  const [passwordInput, setPasswordInput] = useState('')
 
-    auth?.login()
+  function handleClickLogin() {
+    auth?.login(loginInput, passwordInput)
   }
 
   useEffect(() => {
     if (auth?.user) navigate('/')
   }, [auth?.user])
+
+  function handleLoginInputChange(e: ChangeEvent<HTMLInputElement>) {
+    setLoginInput(e.target.value)
+  }
+
+  function handlePasswordInputChange(e: ChangeEvent<HTMLInputElement>) {
+    setPasswordInput(e.target.value)
+  }
 
   return (
     <Flex
@@ -43,13 +52,13 @@ export default function Login() {
           p={8}
         >
           <Stack spacing={4}>
-            <FormControl id="email">
-              <FormLabel>Email</FormLabel>
-              <Input type="email" />
+            <FormControl id="login">
+              <FormLabel>CPF/CNPJ</FormLabel>
+              <Input type="login" value={loginInput} onChange={handleLoginInputChange} />
             </FormControl>
             <FormControl id="password">
               <FormLabel>Senha</FormLabel>
-              <Input type="password" />
+              <Input type="password" value={passwordInput} onChange={handlePasswordInputChange} />
             </FormControl>
             <Stack spacing={10}>
               <Stack

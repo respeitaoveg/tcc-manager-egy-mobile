@@ -1,25 +1,25 @@
 import axios, { AxiosInstance } from 'axios'
-import { api } from '../types/api'
+import { api, user } from '../types/api'
 
 export class ClientApi implements api {
   private httpClient: AxiosInstance
 
   constructor() {
     this.httpClient = axios.create({
-      baseURL: 'http://0.0.0.0:3000'
+      baseURL: import.meta.env.VITE_BASE_URL
     })
   }
 
-  async login(login: string, password: string): Promise<any> {
+  async login(login: string, password: string): Promise<user | undefined> {
     try {
-      const response = await this.httpClient.post('/jogo', { login, password })
+      const response = await this.httpClient.post('/usuario/v1/login', { login, senha: password })
 
-      console.log(response)
+      return response.data
     } catch (error) {
       console.error(error)
     }
   }
-  async logout(): Promise<any> {
+  async logout(): Promise<undefined> {
     throw new Error('Method not implemented.')
   }
 }
