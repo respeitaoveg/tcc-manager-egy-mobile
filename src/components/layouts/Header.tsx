@@ -12,7 +12,7 @@ import {
   useBoolean
 } from '@chakra-ui/react'
 import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons'
-// import SidePaneDrawer from '../Drawer'
+import MyDrawer from '../Drawer'
 // import Cart from '../products/ordered/Cart'
 // import ResumeFooter from '../products/ordered/ResumeFooter'
 
@@ -102,13 +102,13 @@ export default function Header() {
         ) : null}
       </Box>
 
-      {/* <SidePaneDrawer
+      <MyDrawer
         isOpen={isOpenSidePaneDrawer}
         onToggle={onToggleSidepaneDrawer}
         drawerHeader="Pedido"
-        drawerBody={Cart(onToggleSidepaneDrawer, setFindedUser)}
-        drawerFooter={ResumeFooter(onToggleSidepaneDrawer, isFindedUser)}
-      /> */}
+        drawerBody={<div>teste</div>}
+        drawerFooter={<div></div>}
+      />
     </>
   )
 }
