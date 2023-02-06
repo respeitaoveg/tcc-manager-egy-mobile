@@ -1,5 +1,5 @@
 import axios, { AxiosInstance } from 'axios'
-import { api, user } from '../types/api'
+import { api, product, user } from '../types/api'
 
 export class ClientApi implements api {
   private httpClient: AxiosInstance
@@ -19,7 +19,18 @@ export class ClientApi implements api {
       console.error(error)
     }
   }
+
   async logout(): Promise<undefined> {
     throw new Error('Method not implemented.')
+  }
+
+  async products(params: any): Promise<product[] | undefined> {
+    try {
+      const response = await this.httpClient.post('/produto/v1/buscar', params)
+
+      return response.data
+    } catch (error) {
+      console.error(error)
+    }
   }
 }
