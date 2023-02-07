@@ -1,51 +1,35 @@
-import { CheckIcon, Search2Icon } from '@chakra-ui/icons'
-import {
-  Button,
-  Input,
-  InputGroup,
-  InputLeftElement,
-  InputRightElement,
-  VStack
-} from '@chakra-ui/react'
+import { VStack } from '@chakra-ui/react'
+import { useEffect, useState } from 'react'
 import Logged from './components/layouts/Logged'
+import ListProducts from './components/ListProducts'
+import SearchProduct from './components/SearchProduct'
+import { ClientApi } from './services/ClientApi'
+import { product } from './types/api'
 
 export default function App() {
+  const api = new ClientApi()
+
+  const [products, setProducts] = useState<product[] | undefined>()
+
+  useEffect(() => {
+    getProducts()
+  }, [])
+
+  async function getProducts() {
+    try {
+      const data = await api.products()
+
+      if (data) setProducts(data)
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
   return (
     <Logged>
       <VStack alignItems="stretch" spacing={4} maxWidth="100%" height="100vh">
-        <InputGroup>
-          <InputLeftElement pointerEvents="none">
-            <Search2Icon color="gray.300" />
-          </InputLeftElement>
-          <Input
-            type="text"
-            placeholder="Produto"
-            onChange={(e) => e.target.value}
-          />
-          <InputRightElement mr={2}>
-            <Button
-              colorScheme="teal"
-              h="1.75rem"
-              size="sm"
-              onClick={() => ({})}
-            >
-              <CheckIcon color="white" />
-            </Button>
-          </InputRightElement>
-        </InputGroup>
-
-        {/* {filteredProducts.map((product, index) => {
-          return (
-            <CardProductResume
-              key={index}
-              name={product.name}
-              description={product.description}
-              image={product.image}
-              price={product.price}
-              quantity={product.quantity}
-            />
-          )
-        })} */}
+        <SearchProduct />
+        <ListProducts products={products}  />
       </VStack>
     </Logged>
   )
