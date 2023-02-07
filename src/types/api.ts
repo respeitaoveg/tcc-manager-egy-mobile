@@ -5,13 +5,20 @@ export interface api {
 }
 
 export interface user {
-  nome: string,
-  email: string,
-  roleGNFE: string,
+  nome: string
+  email: string
+  roleGNFE: string
   dataExpiracaoSenha: string
 }
 
 export interface product {
-  nome: string,
-  quantidade: number
+  id: string
+  cod: string
+  descricao: string
+  estoqueAtual: string
+  imagemBase64: string
+  nome: string
+  nomeImagem: string
+  unidadeMedida: string
+  valorUnidade: string
 }
