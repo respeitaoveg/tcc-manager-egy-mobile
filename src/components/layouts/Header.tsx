@@ -13,6 +13,7 @@ import {
 } from '@chakra-ui/react'
 import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons'
 import MyDrawer from '../Drawer'
+import Cart from '../cart/Cart'
 // import Cart from '../products/ordered/Cart'
 // import ResumeFooter from '../products/ordered/ResumeFooter'
 
@@ -106,7 +107,7 @@ export default function Header() {
         isOpen={isOpenSidePaneDrawer}
         onToggle={onToggleSidepaneDrawer}
         drawerHeader="Pedido"
-        drawerBody={<div>teste</div>}
+        drawerBody={<Cart onToggleSidepaneDrawer={onToggleSidepaneDrawer} />}
         drawerFooter={<div></div>}
       />
     </>

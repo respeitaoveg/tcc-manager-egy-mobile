@@ -10,14 +10,16 @@ interface CartContext {
 export const CartContext = createContext<CartContext |  undefined>(undefined)
 
 export default function CartProvider({ children }: { children: ReactNode }) {
-  const [products, setProducts] = useState<product[]>()
+  const [products, setProducts] = useState<product[]>([])
 
   function addProduct(product: product) {
-    setProducts([product])
+    setProducts([...products, product])
+
+    console.log(111, products)
   }
 
   function removeProduct(product: product) {
-    setProducts([product])
+    setProducts([...products.filter((p) => p.id !== product.id)])
   }
 
   const value = useMemo(

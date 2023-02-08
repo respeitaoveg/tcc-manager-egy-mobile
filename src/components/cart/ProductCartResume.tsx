@@ -9,27 +9,19 @@ import {
   VStack,
   useToast
 } from '@chakra-ui/react'
-import { useCart } from '../contexts/CartContext'
-import { product } from '../types/api'
 
-function Product(product: product) {
+export default function ProductCartResume(props: {
+  name: string
+  description: string
+  price: number
+  image: string
+  quantity: number
+}) {
   const toast = useToast()
-  const cart = useCart()
-
-  const {
-    nome,
-    descricao,
-    imagemBase64,
-    nomeImagem,
-    valorUnidade,
-    estoqueAtual
-  } = product
 
   function addProduct() {
-    cart?.addProduct(product)
-
     toast({
-      description: `${nome} adicionado(a) com sucesso!`,
+      description: `${props.name} adicionado(a) com sucesso!`,
       status: 'success',
       duration: 2000
     })
@@ -41,23 +33,22 @@ function Product(product: product) {
       shadow="lg"
       padding={2}
       spacing={2}
-      maxH='200px'
+      maxWidth="600px"
       position="relative"
     >
       <Image
         borderRadius="lg"
         width="25%"
-        maxW= '200px'
-        src={imagemBase64}
-        alt={`Picture of ${nomeImagem}`}
+        src={props.image}
+        alt={`Picture of ${props.name}`}
       />
 
       <VStack alignItems="start" width="60%">
-        <Text fontSize="2xl">{nome}</Text>
-        <Text fontSize="sm">{descricao}</Text>
+        <Text fontSize="xl">{props.name}</Text>
+        <Text fontSize="sm">{props.description}</Text>
         <HStack>
           <Text fontWeight="semibold">Preço:</Text>
-          <Text>R$ {valorUnidade}</Text>
+          <Text>R$ {props.price}</Text>
         </HStack>
       </VStack>
 
@@ -77,11 +68,9 @@ function Product(product: product) {
           fontWeight="semibold"
           color="gray"
         >
-          {estoqueAtual}
+          {props.quantity}
         </Text>
       </Flex>
     </HStack>
   )
 }
-
-export default Product
