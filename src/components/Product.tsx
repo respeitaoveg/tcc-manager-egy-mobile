@@ -49,7 +49,7 @@ function Product(product: product) {
       />
 
       <VStack alignItems="start" width="60%">
-        <Text fontSize="xl">{nome}</Text>
+        <Text fontSize="2xl">{nome}</Text>
         <Text fontSize="sm">{descricao}</Text>
         <HStack>
           <Text fontWeight="semibold">Preço:</Text>
