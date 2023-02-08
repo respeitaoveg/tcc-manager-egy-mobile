@@ -10,7 +10,7 @@ interface CartProps {
 
 export default function Cart({ onToggleSidepaneDrawer }: CartProps) {
   const toast = useToast()
-  const cart = useCart()
+  const { products, removeProduct } = useCart()
 
   const [customerInput, setCustomerInput] = useState('')
 
@@ -91,13 +91,13 @@ export default function Cart({ onToggleSidepaneDrawer }: CartProps) {
 
       <Divider />
 
-      {cart && cart.products && cart?.products?.length > 0 ? (
+      {products && products?.length > 0 ? (
         <VStack spacing={8}>
-          {cart.products.map((product, key) => (
+          {products.map((product, key) => (
             <ProductCart
               key={key}
               product={product}
-              handleRemoveProduct={() => cart.removeProduct(product)}
+              handleRemoveProduct={() => removeProduct(product)}
             />
           ))}
         </VStack>

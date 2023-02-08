@@ -2,12 +2,12 @@ import { createContext, ReactNode, useContext, useMemo, useState } from "react"
 import { product } from "../types/api"
 
 interface CartContext {
-  products: product[] | undefined
+  products: product[] | null
   addProduct(product: product): void
   removeProduct(product: product): void
 }
 
-export const CartContext = createContext<CartContext |  undefined>(undefined)
+export const CartContext = createContext<CartContext>({} as CartContext)
 
 export default function CartProvider({ children }: { children: ReactNode }) {
   const [products, setProducts] = useState<product[]>([])
