@@ -11,6 +11,23 @@ export interface user {
   dataExpiracaoSenha: string
 }
 
+export interface completeUser {
+  bairro: string
+  cep: string
+  cidade: string
+  stringcodigoIBGE: string
+  cpfCnpj: string
+  email: string
+  endereco: string
+  estado: string
+  id: string
+  login: string
+  nome: string
+  numero: number
+  roleGD: string
+  telefone: string
+}
+
 export interface product {
   id: string
   cod: string

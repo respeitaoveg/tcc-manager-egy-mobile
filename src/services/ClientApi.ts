@@ -1,5 +1,5 @@
 import axios, { AxiosInstance } from 'axios'
-import { api, product, user } from '../types/api'
+import { api, completeUser, product, user } from '../types/api'
 
 const products = [
   {
@@ -26,6 +26,19 @@ const products = [
   }
 ]
 
+const completeUser = {
+  id: '1',
+  nome: 'Yuri',
+  email: 'teset@teste.com'
+} as completeUser
+
+const user = {
+  nome: 'Yuri',
+  email: 'yuri.moc.rb@gmail.com',
+  roleGNFE: 'admin',
+  dataExpiracaoSenha: '12/12/2024'
+}
+
 export class ClientApi implements api {
   private httpClient: AxiosInstance
 
@@ -37,9 +50,11 @@ export class ClientApi implements api {
 
   async login(login: string, password: string): Promise<user | undefined> {
     try {
-      const response = await this.httpClient.post('/usuario/v1/login', { login, senha: password })
+      // const response = await this.httpClient.post('/usuario/v1/login', { login, senha: password })
 
-      return response.data
+      // return response.data
+
+      return user
     } catch (error) {
       console.error(error)
     }
@@ -55,6 +70,17 @@ export class ClientApi implements api {
 
       // return response.data
       return products
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  async consultUser(params?: any): Promise<completeUser | undefined> {
+    try {
+      // const response = await this.httpClient.post('/usuario/v1/buscar', params)
+
+      // return response.data
+      return completeUser
     } catch (error) {
       console.error(error)
     }
