@@ -92,7 +92,7 @@ export default function Cart({ onToggleSidepaneDrawer }: CartProps) {
 
       <Divider />
 
-      {products && products?.length > 0 && (
+      {/* {products && products?.length > 0 && (
         <VStack spacing={8}>
           {products.map((product: product, key: number) => (
             <ProductCart
@@ -102,7 +102,7 @@ export default function Cart({ onToggleSidepaneDrawer }: CartProps) {
             />
           ))}
         </VStack>
-      )}
+      )} */}
     </VStack>
   )
 }

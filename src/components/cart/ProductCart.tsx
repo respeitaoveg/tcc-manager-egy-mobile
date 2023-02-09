@@ -10,7 +10,10 @@ import {
 import { product } from '../../types/api'
 
 interface ProductCartProps {
-  product: product
+  cart: {
+    product: product
+    quantity: number
+  }
   removeProduct(product: product): void
 }
 
