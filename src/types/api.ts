@@ -22,3 +22,8 @@ export interface product {
   unidadeMedida: string
   valorUnidade: string
 }
+
+export interface cart {
+  product: product
+  quantity: number
+}

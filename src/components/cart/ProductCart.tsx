@@ -10,14 +10,12 @@ import {
 import { product } from '../../types/api'
 
 interface ProductCartProps {
-  cart: {
-    product: product
-    quantity: number
-  }
+  product: product
+  quantity: number
   removeProduct(product: product): void
 }
 
-export default function ProductCart({ product, removeProduct }: ProductCartProps) {
+export default function ProductCart({ product, quantity, removeProduct }: ProductCartProps) {
   return (
     <VStack w='full' align="start" spacing={2}>
       <HStack w='full' placeItems='flex-start'>
@@ -51,7 +49,7 @@ export default function ProductCart({ product, removeProduct }: ProductCartProps
       </HStack>
       <HStack spacing={4} alignItems="end">
         <Text fontWeight="semibold">Quantidade:</Text>
-        <Text>{12345555}</Text>
+        <Text>{quantity}</Text>
       </HStack>
       <HStack>
         <Text fontWeight="semibold">Preço unitário:</Text>
@@ -59,7 +57,7 @@ export default function ProductCart({ product, removeProduct }: ProductCartProps
       </HStack>
       <HStack>
         <Text fontWeight="semibold">Preço total por item:</Text>
-        <Text>R$ {2 * parseFloat(product.valorUnidade)}</Text>
+        <Text>R$ {quantity * parseFloat(product.valorUnidade)}</Text>
       </HStack>
     </VStack>
   )

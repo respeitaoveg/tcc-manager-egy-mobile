@@ -1,13 +1,8 @@
 import { createContext, ReactNode, useContext, useMemo, useState } from "react"
-import { product } from "../types/api"
-
-interface Cart {
-  product: product
-  quantity: number
-}
+import { product, cart } from "../types/api"
 
 interface CartContext {
-  cart: Cart[]
+  cart: cart[]
   addProduct(product: product): void
   removeProduct(product: product): void
 }
@@ -15,7 +10,7 @@ interface CartContext {
 export const CartContext = createContext<CartContext>({} as CartContext)
 
 export default function CartProvider({ children }: { children: ReactNode }) {
-  const [cart, setCart] = useState<Cart[]>([])
+  const [cart, setCart] = useState<cart[]>([])
 
   function addProduct(product: product) {
     if (cart.length === 0) return setCart([{product, quantity: 1}])
@@ -36,7 +31,7 @@ export default function CartProvider({ children }: { children: ReactNode }) {
   }
 
   function removeProduct(product: product) {
-    setCart([...cart.filter((p) => p.product.id !== product.id)])
+    setCart([...cart.filter((item) => item.product.id !== product.id)])
   }
 
   const value = useMemo(

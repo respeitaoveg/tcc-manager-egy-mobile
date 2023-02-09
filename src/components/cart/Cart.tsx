@@ -3,7 +3,7 @@ import ProductCart from './ProductCart'
 import { ChangeEvent, useState } from 'react'
 import { Search2Icon } from '@chakra-ui/icons'
 import { useCart } from '../../contexts/CartContext'
-import { product } from '../../types/api'
+import { cart, product } from '../../types/api'
 
 interface CartProps {
   onToggleSidepaneDrawer(): void
@@ -11,7 +11,7 @@ interface CartProps {
 
 export default function Cart({ onToggleSidepaneDrawer }: CartProps) {
   const toast = useToast()
-  const { products, removeProduct } = useCart()
+  const { cart, removeProduct } = useCart()
 
   const [customerInput, setCustomerInput] = useState('')
 
@@ -92,17 +92,18 @@ export default function Cart({ onToggleSidepaneDrawer }: CartProps) {
 
       <Divider />
 
-      {/* {products && products?.length > 0 && (
+      {cart && cart?.length > 0 && (
         <VStack spacing={8}>
-          {products.map((product: product, key: number) => (
+          {cart.map((item: cart, key: number) => (
             <ProductCart
               key={key}
-              product={product}
-              removeProduct={() => removeProduct(product)}
+              product={item.product}
+              quantity={item.quantity}
+              removeProduct={() => removeProduct(item.product)}
             />
           ))}
         </VStack>
-      )} */}
+      )}
     </VStack>
   )
 }
