@@ -9,11 +9,11 @@ import {
   useColorModeValue,
   Stack,
   useDisclosure,
-  useBoolean
 } from '@chakra-ui/react'
 import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons'
 import MyDrawer from '../Drawer'
 import Cart from '../cart/Cart'
+import ResumeCartFooter from '../cart/ResumeCartFooter'
 // import Cart from '../products/ordered/Cart'
 // import ResumeFooter from '../products/ordered/ResumeFooter'
 
@@ -51,7 +51,6 @@ export default function Header() {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const { isOpen: isOpenSidePaneDrawer, onToggle: onToggleSidepaneDrawer } =
     useDisclosure()
-  const [isFindedUser, setFindedUser] = useBoolean(false)
 
   return (
     <>
@@ -108,7 +107,7 @@ export default function Header() {
         onToggle={onToggleSidepaneDrawer}
         drawerHeader="Pedido"
         drawerBody={<Cart onToggleSidepaneDrawer={onToggleSidepaneDrawer} />}
-        drawerFooter={<div></div>}
+        drawerFooter={<ResumeCartFooter onToggleSidepaneDrawer={onToggleSidepaneDrawer} />}
       />
     </>
   )

@@ -1,9 +1,17 @@
-import { Button, Divider, HStack, Input, InputGroup, InputRightElement, Text, useToast, VStack } from '@chakra-ui/react'
+import {
+  Button,
+  Divider,
+  Input,
+  InputGroup,
+  InputRightElement,
+  useToast,
+  VStack
+} from '@chakra-ui/react'
 import ProductCart from './ProductCart'
 import { ChangeEvent, useState } from 'react'
 import { Search2Icon } from '@chakra-ui/icons'
 import { useCart } from '../../contexts/CartContext'
-import { cart, product } from '../../types/api'
+import { cart } from '../../types/api'
 
 interface CartProps {
   onToggleSidepaneDrawer(): void
@@ -21,7 +29,6 @@ export default function Cart({ onToggleSidepaneDrawer }: CartProps) {
   }
 
   const onSearchCustomer = () => {
-
     // if (id === '023.426.236-34') {
     //   toast({
     //     title: 'Encontrado!',
@@ -61,18 +68,18 @@ export default function Cart({ onToggleSidepaneDrawer }: CartProps) {
         <Input
           value={customerInput}
           onChange={handleChangeId}
-          pr='4.5rem'
-          type='text'
-          placeholder='CPF/CNPJ'
+          pr="4.5rem"
+          type="text"
+          placeholder="CPF/CNPJ"
         />
         <InputRightElement mr={2}>
           <Button
-            colorScheme='teal'
-            h='1.75rem'
-            size='sm'
+            colorScheme="teal"
+            h="1.75rem"
+            size="sm"
             onClick={onSearchCustomer}
           >
-            <Search2Icon color='white' />
+            <Search2Icon color="white" />
           </Button>
         </InputRightElement>
       </InputGroup>
