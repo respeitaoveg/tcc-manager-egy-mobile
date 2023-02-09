@@ -1,68 +1,63 @@
-import { DeleteIcon } from "@chakra-ui/icons";
+import { DeleteIcon } from '@chakra-ui/icons'
 import {
   Box,
   Button,
   HStack,
   Image,
-  NumberDecrementStepper,
-  NumberIncrementStepper,
-  NumberInput,
-  NumberInputField,
-  NumberInputStepper,
   Text,
-  VStack,
-} from "@chakra-ui/react";
-import { product } from "../../types/api";
+  VStack
+} from '@chakra-ui/react'
+import { product } from '../../types/api'
 
+interface ProductCartProps {
+  product: product
+  removeProduct(product: product): void
+}
 
-export default function ProductCart(props: {product: any, handleRemoveProduct(product: product): void}) {
+export default function ProductCart({ product, removeProduct }: ProductCartProps) {
   return (
-    <VStack align="start">
-      <Box>
-        <Box float="left" pr={2}>
-          <Image
-            boxSize={75}
-            borderRadius="lg"
-            objectFit="cover"
-            src={props.product.imageUrl}
-            alt={props.product.name}
-          />
-        </Box>
-        <Box>
+    <VStack w='full' align="start" spacing={2}>
+      <HStack w='full' placeItems='flex-start'>
+        <Image
+          m={2}
+          boxSize={75}
+          borderRadius="lg"
+          width="25%"
+          maxW= '100px'
+          objectFit="cover"
+          src={product.imagemBase64}
+          alt={product.nome}
+        />
+        <Box w='75%'>
           <HStack justify="space-between">
             <Text fontSize="lg" fontWeight="bold">
-              {props.product.name}
+              {product.nome}
             </Text>
-            <Button colorScheme="red" variant="ghost" onClick={() => props.handleRemoveProduct(props.product.id)}>
+            <Button
+              colorScheme="red"
+              variant="ghost"
+              onClick={() => removeProduct(product)}
+            >
               <DeleteIcon color="red" />
             </Button>
           </HStack>
-          <Text fontSize='sm' align="justify">
-            {props.product.description}
+          <Text fontSize="sm" align="justify">
+            {product.descricao}
           </Text>
         </Box>
-      </Box>
-
-      <VStack spacing={2} align="start">
-        <HStack spacing={4} alignItems='end'>
-          <Text fontWeight="semibold">Quantidade:</Text>
-          <NumberInput size='sm' maxW={20} defaultValue={1} min={0}>
-            <NumberInputField />
-            <NumberInputStepper>
-              <NumberIncrementStepper />
-              <NumberDecrementStepper />
-            </NumberInputStepper>
-          </NumberInput>
-        </HStack>
-        <HStack>
-          <Text fontWeight="semibold">Preço unitário:</Text>
-          <Text>R$ {props.product.price}</Text>
-        </HStack>
-        <HStack>
-          <Text fontWeight="semibold">Preço total por item:</Text>
-          <Text>R$ {props.product.quantity * props.product.price}</Text>
-        </HStack>
-      </VStack>
+      </HStack>
+      <HStack spacing={4} alignItems="end">
+        <Text fontWeight="semibold">Quantidade:</Text>
+        <Text>{12345555}</Text>
+      </HStack>
+      <HStack>
+        <Text fontWeight="semibold">Preço unitário:</Text>
+        <Text>R$ {product.valorUnidade}</Text>
+      </HStack>
+      <HStack>
+        <Text fontWeight="semibold">Preço total por item:</Text>
+        <Text>R$ {2 * parseFloat(product.valorUnidade)}</Text>
+      </HStack>
     </VStack>
-  );
+  )
 }
