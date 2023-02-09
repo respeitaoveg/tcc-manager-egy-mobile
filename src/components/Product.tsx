@@ -47,7 +47,7 @@ function Product(product: product) {
       <Image
         borderRadius="lg"
         width="25%"
-        maxW= '200px'
+        maxW= '150px'
         src={imagemBase64}
         alt={`Picture of ${nomeImagem}`}
       />
