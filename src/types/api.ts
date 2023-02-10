@@ -11,6 +11,13 @@ export interface user {
   dataExpiracaoSenha: string
 }
 
+export interface consultUser {
+  cpfCnpj: string
+  id: number
+  nome: string
+  roleGNFE: string
+}
+
 export interface completeUser {
   bairro: string
   cep: string
@@ -43,4 +50,37 @@ export interface product {
 export interface cart {
   product: product
   quantity: number
+}
+
+export interface requestConsultUser {
+  login?: string
+  nome?: string
+  roleGD?: string
+}
+
+export interface responseConsultUser {
+  usuariosAtivos: [
+    {
+      cpfCnpj: string
+      id: number
+      nome: string
+      roleGNFE: string
+    } | null
+  ]
+  usuariosBloqueados: [
+    {
+      cpfCnpj: string
+      id: number
+      nome: string
+      roleGNFE: string
+    }
+  ] | null
+  usuariosInativos: [
+    {
+      cpfCnpj: string
+      id: number
+      nome: string
+      roleGNFE: string
+    }
+  ] | null
 }

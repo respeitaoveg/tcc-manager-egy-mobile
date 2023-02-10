@@ -1,5 +1,5 @@
 import axios, { AxiosInstance } from 'axios'
-import { api, completeUser, product, user } from '../types/api'
+import { api, consultUser, product, requestConsultUser, responseConsultUser, user } from '../types/api'
 
 const products = [
   {
@@ -26,12 +26,6 @@ const products = [
   }
 ]
 
-const completeUser = {
-  id: '1',
-  nome: 'Yuri',
-  email: 'teset@teste.com'
-} as completeUser
-
 const user = {
   nome: 'Yuri',
   email: 'yuri.moc.rb@gmail.com',
@@ -50,11 +44,11 @@ export class ClientApi implements api {
 
   async login(login: string, password: string): Promise<user | undefined> {
     try {
-      // const response = await this.httpClient.post('/usuario/v1/login', { login, senha: password })
+      const response = await this.httpClient.post('/usuario/v1/login', { login, senha: password })
 
-      // return response.data
+      return response.data
 
-      return user
+      // return user
     } catch (error) {
       console.error(error)
     }
@@ -75,12 +69,24 @@ export class ClientApi implements api {
     }
   }
 
-  async consultUser(params?: any): Promise<completeUser | undefined> {
+  async consultUser(params?: requestConsultUser): Promise<consultUser | undefined> {
     try {
-      // const response = await this.httpClient.post('/usuario/v1/buscar', params)
+      // const response = await this.httpClient.post('/usuario/v1/consultar', params)
 
       // return response.data
-      return completeUser
+
+      if (params?.login === '2') {
+        return ({
+          "id": 2,
+          "nome": "EMPRESA TESTE",
+          "cpfCnpj": "10735961921",
+          "roleGNFE": "ADMIN"
+        } as consultUser)
+      }
+
+      return
+
+
     } catch (error) {
       console.error(error)
     }

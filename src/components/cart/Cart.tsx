@@ -1,17 +1,21 @@
 import {
   Button,
   Divider,
+  HStack,
   Input,
   InputGroup,
   InputRightElement,
   useToast,
-  VStack
+  VStack,
+  Text
 } from '@chakra-ui/react'
 import ProductCart from './ProductCart'
 import { ChangeEvent, useState } from 'react'
 import { Search2Icon } from '@chakra-ui/icons'
 import { useCart } from '../../contexts/CartContext'
 import { cart } from '../../types/api'
+import { useCustomer } from '../../contexts/CustomerContext'
+import { Navigate } from 'react-router-dom'
 
 interface CartProps {
   onToggleSidepaneDrawer(): void
@@ -20,45 +24,38 @@ interface CartProps {
 export default function Cart({ onToggleSidepaneDrawer }: CartProps) {
   const toast = useToast()
   const { cart, removeProduct } = useCart()
+  const { consultCustomer, customer } = useCustomer()
 
   const [customerInput, setCustomerInput] = useState('')
 
   function handleChangeId(e: ChangeEvent<HTMLInputElement>) {
-    console.log(e.target.value)
     setCustomerInput(e.target.value)
   }
 
-  const onSearchCustomer = () => {
-    // if (id === '023.426.236-34') {
-    //   toast({
-    //     title: 'Encontrado!',
-    //     description: 'Cliente encontrado com sucesso',
-    //     status: 'success',
-    //     duration: 2000
-    //   })
+  async function handleSearchCustomer() {
+    const customer = await consultCustomer(customerInput)
 
-    //   // setFindedCustomer(true)
-    //   // setcreateCustomer(false)
-    //   // setFindedUser.toggle()
-
-    //   return
-    // }
-
-    toast({
-      title: 'Não encontrado!',
-      description: 'Cliente não encontrado.',
-      status: 'error',
-      duration: 2000
-    })
-
-    // setFindedCustomer(false)
-    // setcreateCustomer(true)
+    if (customer) {
+      toast({
+        title: 'Encontrado!',
+        description: 'Cliente encontrado com sucesso',
+        status: 'success',
+        duration: 2000
+      })
+    } else {
+      toast({
+        title: 'Não encontrado!',
+        description: 'Cliente não encontrado.',
+        status: 'error',
+        duration: 2000
+      })
+    }
   }
 
   const onCreateCustomer = () => {
-    // setFindedCustomer(false)
-    // setcreateCustomer(true)
-    // Router.push('/customer')
+
+    <Navigate to='/customer/create' />
+
     onToggleSidepaneDrawer()
   }
 
@@ -77,25 +74,25 @@ export default function Cart({ onToggleSidepaneDrawer }: CartProps) {
             colorScheme="teal"
             h="1.75rem"
             size="sm"
-            onClick={onSearchCustomer}
+            onClick={handleSearchCustomer}
           >
             <Search2Icon color="white" />
           </Button>
         </InputRightElement>
       </InputGroup>
 
-      {/* {findedCustomer && !createCustomer && (
+      {customer && (
         <HStack>
           <Text fontWeight='semibold'>Cliente:</Text>
           <Text>Ana Maria</Text>
         </HStack>
       )}
 
-      {createCustomer && !findedCustomer && (
+      {!customer && (
         <HStack justify='center'>
           <Button colorScheme='teal' onClick={() => onCreateCustomer()}>Criar cliente</Button>
         </HStack>
-      )} */}
+      )}
 
       <Divider />
 

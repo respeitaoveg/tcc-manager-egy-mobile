@@ -23,8 +23,8 @@ const Links = [
     route: '/'
   },
   {
-    label: 'Perfil',
-    route: '/admin'
+    label: 'Criar cliente',
+    route: '/customer/create'
   },
   {
     label: 'Sair',

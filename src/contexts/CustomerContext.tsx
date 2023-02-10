@@ -1,23 +1,37 @@
-import { createContext, ReactNode, useContext, useMemo, useState } from "react"
-import { ClientApi } from "../services/ClientApi"
-import { completeUser } from "../types/api"
+import { createContext, ReactNode, useContext, useMemo, useState } from 'react'
+import { ClientApi } from '../services/ClientApi'
+import { consultUser, requestConsultUser } from '../types/api'
 
 interface CustomerContext {
-  customer: completeUser | undefined
-  consultCustomer(cpf: string): void
+  customer: consultUser | undefined
+  consultCustomer(cpf: string): Promise<consultUser | void>
 }
 
-export const CustomerContext = createContext<CustomerContext>({} as CustomerContext)
+export const CustomerContext = createContext<CustomerContext>(
+  {} as CustomerContext
+)
 
-export default function CustomerProvider({ children }: { children: ReactNode }) {
-  const [customer, setCustomer] = useState<completeUser>()
+export default function CustomerProvider({
+  children
+}: {
+  children: ReactNode
+}) {
+  const [customer, setCustomer] = useState<consultUser | undefined>()
 
   const api = new ClientApi()
 
-  async function consultCustomer(cpf: string) {
-    const customer = await api.consultUser(cpf)
+  async function consultCustomer(cpf: string): Promise< consultUser | void> {
+    const params: requestConsultUser = { login: cpf }
 
-    if (customer) setCustomer(customer)
+    const customer = await api.consultUser(params)
+
+    if (customer) {
+      setCustomer(customer)
+
+      return customer
+    } else {
+      setCustomer(undefined)
+    }
   }
 
   const value = useMemo(
@@ -28,7 +42,11 @@ export default function CustomerProvider({ children }: { children: ReactNode }) 
     [customer]
   )
 
-  return <CustomerContext.Provider value={value}>{children}</CustomerContext.Provider>
+  return (
+    <CustomerContext.Provider value={value}>
+      {children}
+    </CustomerContext.Provider>
+  )
 }
 
-export const useCart = () => useContext(CustomerContext)
+export const useCustomer = () => useContext(CustomerContext)
