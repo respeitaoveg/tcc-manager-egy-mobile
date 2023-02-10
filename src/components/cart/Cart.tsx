@@ -15,7 +15,7 @@ import { Search2Icon } from '@chakra-ui/icons'
 import { useCart } from '../../contexts/CartContext'
 import { cart } from '../../types/api'
 import { useCustomer } from '../../contexts/CustomerContext'
-import { Navigate } from 'react-router-dom'
+import { Navigate, useNavigate } from 'react-router-dom'
 
 interface CartProps {
   onToggleSidepaneDrawer(): void
@@ -25,6 +25,7 @@ export default function Cart({ onToggleSidepaneDrawer }: CartProps) {
   const toast = useToast()
   const { cart, removeProduct } = useCart()
   const { consultCustomer, customer } = useCustomer()
+  const navigate = useNavigate()
 
   const [customerInput, setCustomerInput] = useState('')
 
@@ -54,7 +55,7 @@ export default function Cart({ onToggleSidepaneDrawer }: CartProps) {
 
   const onCreateCustomer = () => {
 
-    <Navigate to='/customer/create' />
+    navigate('/customer/create')
 
     onToggleSidepaneDrawer()
   }
