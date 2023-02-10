@@ -1,15 +1,13 @@
 import { Button } from "@chakra-ui/button"
 import { Input } from "@chakra-ui/input"
 import { Box, HStack, Text, VStack } from "@chakra-ui/layout"
-import { FormControl, FormLabel } from "@chakra-ui/form-control"
-import { Switch } from "@chakra-ui/switch"
-import { useBoolean } from "@chakra-ui/hooks"
 import { Select } from "@chakra-ui/select"
 import { useToast } from "@chakra-ui/toast"
+import { useNavigate } from "react-router-dom"
 
 export default function CreateCustomer() {
   const toast = useToast()
-  const [isCNPJ, setIsCNPJ] = useBoolean()
+  const navigate = useNavigate()
 
   function handleCreateCustomer() {
     toast({
@@ -19,19 +17,13 @@ export default function CreateCustomer() {
       duration: 2000
     })
 
-    // Router.push('/')
+    navigate('/')
   }
 
   return (
     <VStack bgColor='white' p={4} rounded='md' shadow='lg' spacing={8}>
       <HStack w='full' justifyContent='space-between'>
         <Text fontSize='2xl'>Criar cliente</Text>
-        <FormControl display='flex' alignItems='center' w='min-content'>
-          <FormLabel htmlFor='toggle-cnpj' mb='0'>
-            CNPJ
-          </FormLabel>
-          <Switch id='toggle-cnpj' onChange={setIsCNPJ.toggle} />
-        </FormControl>
       </HStack>
 
       <VStack w='full' spacing={4}>
@@ -39,33 +31,24 @@ export default function CreateCustomer() {
           <Text fontSize='sm' fontWeight='semibold'>Nome</Text>
           <Input placeholder='...' />
         </Box>
-
-        {!isCNPJ ?
-          <>
-            <Box w='full'>
-              <Text fontSize='sm' fontWeight='semibold'>Sobrenome</Text>
-              <Input placeholder='...' />
-            </Box>
-            <Box w='full'>
-              <Text fontSize='sm' fontWeight='semibold'>CPF</Text>
-              <Input placeholder='...' />
-            </Box>
-          </>
-        :
-          <>
-            <Box w='full'>
-              <Text fontSize='sm' fontWeight='semibold'>CNPJ</Text>
-              <Input placeholder='...' />
-            </Box>
-            <Box w='full'>
-              <Text fontSize='sm' fontWeight='semibold'>Inscrição estadual</Text>
-              <Input placeholder='...' />
-            </Box>
-          </>
-        }
-
+        <Box w='full'>
+          <Text fontSize='sm' fontWeight='semibold'>CPF/CNPJ</Text>
+          <Input placeholder='...' />
+        </Box>
         <Box w='full'>
           <Text fontSize='sm' fontWeight='semibold'>Email</Text>
+          <Input placeholder='...' />
+        </Box>
+        <Box w='full'>
+          <Text fontSize='sm' fontWeight='semibold'>DDD</Text>
+          <Select placeholder='Selecione'>
+            <option value='option1'>41</option>
+            <option value='option2'>42</option>
+            <option value='option3'>43</option>
+          </Select>
+        </Box>
+        <Box w='full'>
+          <Text fontSize='sm' fontWeight='semibold'>Telefone</Text>
           <Input placeholder='...' />
         </Box>
         <Box w='full'>
@@ -73,7 +56,15 @@ export default function CreateCustomer() {
           <Input placeholder='...' />
         </Box>
         <Box w='full'>
-          <Text fontSize='sm' fontWeight='semibold'>Rua</Text>
+          <Text fontSize='sm' fontWeight='semibold'>Endereço</Text>
+          <Input placeholder='...' />
+        </Box>
+        <Box w='full'>
+          <Text fontSize='sm' fontWeight='semibold'>Número</Text>
+          <Input placeholder='...' />
+        </Box>
+        <Box w='full'>
+          <Text fontSize='sm' fontWeight='semibold'>Bairro</Text>
           <Input placeholder='...' />
         </Box>
         <Box w='full'>
@@ -87,14 +78,6 @@ export default function CreateCustomer() {
             <option value='option2'>SP</option>
             <option value='option3'>CE</option>
           </Select>
-        </Box>
-        <Box w='full'>
-          <Text fontSize='sm' fontWeight='semibold'>Número</Text>
-          <Input placeholder='...' />
-        </Box>
-        <Box w='full'>
-          <Text fontSize='sm' fontWeight='semibold'>Telefone</Text>
-          <Input placeholder='...' />
         </Box>
       </VStack>
 

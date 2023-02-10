@@ -84,3 +84,24 @@ export interface responseConsultUser {
     }
   ] | null
 }
+
+export interface requestRegisterUser {
+  nome?: string,
+  cpfCnpj?: string,
+  bairro?: string,
+  cep?: string,
+  cidade?: string,
+  codigoIBGE?: string,
+  email?: string,
+  endereco?: string,
+  estado?: string,
+  login?: string,
+  numero: number,
+  roleGD?: string,
+  telefone?: string
+}
+
+export interface responseRegisterUser {
+  body?: any,
+  statusCode?: string
+}

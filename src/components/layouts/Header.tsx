@@ -1,4 +1,4 @@
-import { ReactNode } from 'react'
+import { MouseEventHandler, ReactNode } from 'react'
 import {
   Box,
   Flex,
@@ -14,6 +14,7 @@ import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons'
 import MyDrawer from '../Drawer'
 import Cart from '../cart/Cart'
 import ResumeCartFooter from '../cart/ResumeCartFooter'
+import { useNavigate } from 'react-router-dom'
 // import Cart from '../products/ordered/Cart'
 // import ResumeFooter from '../products/ordered/ResumeFooter'
 
@@ -32,25 +33,34 @@ const Links = [
   }
 ]
 
-const NavLink = (props: { children: ReactNode; router: string }) => (
-  <Link
-    px={2}
-    py={1}
-    rounded={'md'}
-    _hover={{
-      textDecoration: 'none',
-      bg: useColorModeValue('gray.200', 'gray.700')
-    }}
-    href={props.router}
-  >
-    {props.children}
-  </Link>
-)
-
 export default function Header() {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const { isOpen: isOpenSidePaneDrawer, onToggle: onToggleSidepaneDrawer } =
     useDisclosure()
+  const navigate = useNavigate()
+
+  const NavLink = (props: { children: ReactNode; router: string }) => {
+    function navigation() {
+      onClose()
+      navigate(props.router)
+    }
+    return (
+      <Button
+        px={2}
+        py={1}
+        rounded={'md'}
+        fontWeight={400}
+        _hover={{
+          textDecoration: 'none',
+          bg: useColorModeValue('gray.200', 'gray.700')
+        }}
+        onClick={navigation}
+      >
+        {props.children}
+      </Button>
+    )
+  }
+
 
   return (
     <>

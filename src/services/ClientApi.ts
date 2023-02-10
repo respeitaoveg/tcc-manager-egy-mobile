@@ -1,5 +1,5 @@
 import axios, { AxiosInstance } from 'axios'
-import { api, consultUser, product, requestConsultUser, responseConsultUser, user } from '../types/api'
+import { api, consultUser, product, requestConsultUser, requestRegisterUser, responseConsultUser, responseRegisterUser, user } from '../types/api'
 
 const products = [
   {
@@ -87,6 +87,16 @@ export class ClientApi implements api {
       return
 
 
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  async registerUser(params: requestRegisterUser): Promise<responseRegisterUser | undefined> {
+    try {
+      const response = await this.httpClient.post('/usuario/v1/registrar', params)
+
+      return response.data
     } catch (error) {
       console.error(error)
     }
