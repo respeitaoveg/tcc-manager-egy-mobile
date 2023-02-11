@@ -1,12 +1,21 @@
-import { Button } from "@chakra-ui/button"
-import { useColorModeValue } from "@chakra-ui/color-mode"
-import { FormControl, FormLabel } from "@chakra-ui/form-control"
-import { HStack, Text, VStack } from "@chakra-ui/layout"
-import { Switch } from "@chakra-ui/switch"
-import { Table, TableCaption, TableContainer, Tbody, Td, Tfoot, Th, Thead, Tr } from "@chakra-ui/table"
-import { useCart } from "../contexts/CartContext"
-import { useCustomer } from "../contexts/CustomerContext"
-
+import { Button } from '@chakra-ui/button'
+import { useColorModeValue } from '@chakra-ui/color-mode'
+import { FormControl, FormLabel } from '@chakra-ui/form-control'
+import { HStack, Text, VStack } from '@chakra-ui/layout'
+import { Box, Select } from '@chakra-ui/react'
+import { Switch } from '@chakra-ui/switch'
+import {
+  Table,
+  TableContainer,
+  Tbody,
+  Td,
+  Tfoot,
+  Th,
+  Thead,
+  Tr
+} from '@chakra-ui/table'
+import { useCart } from '../contexts/CartContext'
+import { useCustomer } from '../contexts/CustomerContext'
 
 export default function ResumeCart() {
   const { customer } = useCustomer()
@@ -25,9 +34,9 @@ export default function ResumeCart() {
     return total
   }
 
- return (
-  <VStack spacing={8} maxWidth="600px">
-    <VStack
+  return (
+    <VStack spacing={8} maxWidth="600px">
+      <VStack
         bg={useColorModeValue('white', 'gray.800')}
         rounded="lg"
         shadow="lg"
@@ -53,9 +62,9 @@ export default function ResumeCart() {
           <Text fontWeight="semibold">Telefone:</Text>
           <Text>(41) 9 9999-9999</Text>
         </HStack>
-    </VStack>
+      </VStack>
 
-    <VStack
+      <VStack
         bg={useColorModeValue('white', 'gray.800')}
         rounded="lg"
         shadow="lg"
@@ -63,38 +72,40 @@ export default function ResumeCart() {
         paddingY={2}
         width={'100%'}
       >
-      <Text fontWeight="semibold">Resumo da compra</Text>
-      <TableContainer>
-        <Table variant='striped' colorScheme='teal'>
-          <Thead>
-            <Tr>
-              <Th>Nome</Th>
-              <Th isNumeric>Quantidade</Th>
-              <Th isNumeric>Preço unidade</Th>
-              <Th isNumeric>Preço Total</Th>
-            </Tr>
-          </Thead>
-          <Tbody>
-            {cart.map((value, index) => (
-               <Tr key={index}>
-                <Td>{value.product.nome}</Td>
-                <Td isNumeric>{value.quantity}</Td>
-                <Td isNumeric>{parseFloat(value.product.valorUnidade)}</Td>
-                <Td isNumeric>{parseFloat(value.product.valorUnidade) * value.quantity}</Td>
+        <Text fontWeight="semibold">Resumo da compra</Text>
+        <TableContainer>
+          <Table variant="striped" colorScheme="teal">
+            <Thead>
+              <Tr>
+                <Th>Nome</Th>
+                <Th isNumeric>Quantidade</Th>
+                <Th isNumeric>Preço unidade</Th>
+                <Th isNumeric>Preço Total</Th>
               </Tr>
-            ))}
-          </Tbody>
-          <Tfoot>
-            <Tr>
-              <Th>Valor total</Th>
-              <Th isNumeric>{totalBudget()}</Th>
-            </Tr>
-          </Tfoot>
-        </Table>
-      </TableContainer>
-    </VStack>
+            </Thead>
+            <Tbody>
+              {cart.map((value, index) => (
+                <Tr key={index}>
+                  <Td>{value.product.nome}</Td>
+                  <Td isNumeric>{value.quantity}</Td>
+                  <Td isNumeric>{parseFloat(value.product.valorUnidade)}</Td>
+                  <Td isNumeric>
+                    {parseFloat(value.product.valorUnidade) * value.quantity}
+                  </Td>
+                </Tr>
+              ))}
+            </Tbody>
+            <Tfoot>
+              <Tr>
+                <Th>Valor total</Th>
+                <Th isNumeric>{totalBudget()}</Th>
+              </Tr>
+            </Tfoot>
+          </Table>
+        </TableContainer>
+      </VStack>
 
-    <VStack
+      <VStack
         bg={useColorModeValue('white', 'gray.800')}
         rounded="lg"
         shadow="lg"
@@ -104,16 +115,35 @@ export default function ResumeCart() {
       >
         <Text fontWeight="semibold">Foma de pagamento</Text>
 
-        <FormControl display='flex' alignItems='center'>
-          <FormLabel htmlFor='email-alerts' mb='0'>
+        <HStack w="full">
+          <FormLabel htmlFor="email-alerts" mb="0">
             <Text fontWeight="semibold">Gerar nota fiscal?</Text>
           </FormLabel>
-          <Switch id='email-alerts' />
-        </FormControl>
-    </VStack>
+          <Switch id="email-alerts" />
+        </HStack>
+        <Box w="full">
+          <Text fontSize="sm" fontWeight="semibold">
+            Forma de pagamento
+          </Text>
+          <Select placeholder="Selecione">
+            <option value="card">Cartão</option>
+            <option value="pix">Pix</option>
+            <option value="cash">Dinheiro</option>
+          </Select>
+        </Box>
+        <Box w="full">
+          <Text fontSize="sm" fontWeight="semibold">
+            Bandeira
+          </Text>
+          <Select placeholder="Selecione">
+            <option value="option1">Mastercard</option>
+          </Select>
+        </Box>
+      </VStack>
 
-    <Button width='100%' colorScheme="blue">
-      Confirmar pedido
-    </Button>
-  </VStack>
-)}
+      <Button width="100%" colorScheme="blue">
+        Confirmar
+      </Button>
+    </VStack>
+  )
+}

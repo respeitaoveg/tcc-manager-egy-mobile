@@ -105,3 +105,15 @@ export interface responseRegisterUser {
   body?: any,
   statusCode?: string
 }
+
+export interface requestRegisterBudget {
+  bandeira: string,
+  clienteId: number,
+  formaPagamento: string,
+  listaProdutoResponse: [
+    {
+      id: number,
+      quantidade: number
+    }
+  ]
+}
