@@ -4,6 +4,7 @@ import ProtectedRoute from './components/auth/ProtectedRoute'
 import CreateCustomer from './pages/customer/create'
 import Home from './pages/home'
 import Login from './pages/login'
+import ResumeCart from './pages/resume-cart'
 
 const router = createBrowserRouter([
   {
@@ -26,6 +27,10 @@ const router = createBrowserRouter([
             element: <CreateCustomer />
           }
         ]
+      },
+      {
+        path: '/resume-cart',
+        element: <ResumeCart />
       }
     ]
   },
