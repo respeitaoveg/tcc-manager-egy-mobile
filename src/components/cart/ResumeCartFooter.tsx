@@ -1,7 +1,9 @@
 import { Button } from '@chakra-ui/button'
 import { HStack, Text } from '@chakra-ui/layout'
 import { useToast } from '@chakra-ui/toast'
+import { useNavigate } from 'react-router-dom'
 import { useCart } from '../../contexts/CartContext'
+import { useCustomer } from '../../contexts/CustomerContext'
 
 interface ResumeCartFooterProps {
   onToggleSidepaneDrawer(): void
@@ -9,9 +11,9 @@ interface ResumeCartFooterProps {
 
 export default function ResumeCartFooter({ onToggleSidepaneDrawer }: ResumeCartFooterProps) {
   const toast = useToast()
-  const isFindedUser = false
-
+  const { customer } = useCustomer()
   const { cart } = useCart()
+  const navigate = useNavigate()
 
   function totalBudget() {
     let total = 0
@@ -24,18 +26,28 @@ export default function ResumeCartFooter({ onToggleSidepaneDrawer }: ResumeCartF
   }
 
   function onclickContinueCart() {
-    if (!isFindedUser) {
+    if (!customer) {
       return toast({
         title: 'Cliente não encontrado!',
         description:
-          'Para continuar com o pedido, adicione um cliente pelo CPF/CNPJ',
+          'Para continuar com o pedido, adicione um cliente pelo CPF/CNPJ.',
+        status: 'error',
+        duration: 2000
+      })
+    }
+
+    if (!cart || cart.length === 0) {
+      return toast({
+        title: 'Carrinho vazio!',
+        description:
+          'Para continuar com o pedido, adicione um produto ao carrinho.',
         status: 'error',
         duration: 2000
       })
     }
 
     onToggleSidepaneDrawer()
-    // router.push('/resumeOrdered')
+    navigate('/resume-cart')
   }
   return (
     <HStack w="100%" justify="space-between">

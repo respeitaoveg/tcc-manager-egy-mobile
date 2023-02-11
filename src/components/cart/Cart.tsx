@@ -7,15 +7,16 @@ import {
   InputRightElement,
   useToast,
   VStack,
-  Text
+  Text,
+  Box
 } from '@chakra-ui/react'
 import ProductCart from './ProductCart'
 import { ChangeEvent, useState } from 'react'
-import { Search2Icon } from '@chakra-ui/icons'
+import { CloseIcon, Search2Icon } from '@chakra-ui/icons'
 import { useCart } from '../../contexts/CartContext'
 import { cart } from '../../types/api'
 import { useCustomer } from '../../contexts/CustomerContext'
-import { Navigate, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 interface CartProps {
   onToggleSidepaneDrawer(): void
@@ -24,7 +25,7 @@ interface CartProps {
 export default function Cart({ onToggleSidepaneDrawer }: CartProps) {
   const toast = useToast()
   const { cart, removeProduct } = useCart()
-  const { consultCustomer, customer } = useCustomer()
+  const { consultCustomer, customer, removeCustomer } = useCustomer()
   const navigate = useNavigate()
 
   const [customerInput, setCustomerInput] = useState('')
@@ -39,7 +40,7 @@ export default function Cart({ onToggleSidepaneDrawer }: CartProps) {
     if (customer) {
       toast({
         title: 'Encontrado!',
-        description: 'Cliente encontrado com sucesso',
+        description: 'Cliente encontrado com sucesso.',
         status: 'success',
         duration: 2000
       })
@@ -53,11 +54,21 @@ export default function Cart({ onToggleSidepaneDrawer }: CartProps) {
     }
   }
 
-  const onCreateCustomer = () => {
-
+  function createCustomer() {
     navigate('/customer/create')
 
     onToggleSidepaneDrawer()
+  }
+
+  function handleRemoveCustomer() {
+    removeCustomer()
+
+    toast({
+      title: 'Removido!',
+      description: 'Cliente removido com sucesso.',
+      status: 'success',
+      duration: 2000
+    })
   }
 
   return (
@@ -83,15 +94,24 @@ export default function Cart({ onToggleSidepaneDrawer }: CartProps) {
       </InputGroup>
 
       {customer && (
-        <HStack>
-          <Text fontWeight='semibold'>Cliente:</Text>
-          <Text>Ana Maria</Text>
+        <HStack justify="space-between">
+          <HStack>
+            <Text fontWeight='semibold'>Cliente:</Text>
+            <Text>Ana Maria</Text>
+          </HStack>
+          <Button
+            colorScheme="red"
+            variant="ghost"
+            onClick={() => handleRemoveCustomer()}
+          >
+            <CloseIcon color='red' />
+          </Button>
         </HStack>
       )}
 
       {!customer && (
         <HStack justify='center'>
-          <Button colorScheme='teal' onClick={() => onCreateCustomer()}>Criar cliente</Button>
+          <Button colorScheme='teal' onClick={() => createCustomer()}>Criar cliente</Button>
         </HStack>
       )}
 

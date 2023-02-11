@@ -6,6 +6,7 @@ interface CustomerContext {
   customer: consultUser | undefined
   consultCustomer(cpf: string): Promise<consultUser | void>
   createCustomer(params: requestConsultUser): Promise<responseConsultUser | void>
+  removeCustomer(): void
 }
 
 export const CustomerContext = createContext<CustomerContext>(
@@ -24,12 +25,12 @@ export default function CustomerProvider({
   async function consultCustomer(cpf: string): Promise<consultUser | undefined> {
     const params: requestConsultUser = { login: cpf }
 
-    const customer = await api.consultUser(params)
+    const response = await api.consultUser(params)
 
-    if (customer) {
-      setCustomer(customer)
+    if (!customer && response) {
+      setCustomer(response)
 
-      return customer
+      return response
     } else {
       setCustomer(undefined)
     }
@@ -45,11 +46,16 @@ export default function CustomerProvider({
     }
   }
 
+  function removeCustomer() {
+    setCustomer(undefined)
+  }
+
   const value = useMemo(
     () => ({
       customer,
       consultCustomer,
-      createCustomer
+      createCustomer,
+      removeCustomer
     }),
     [customer]
   )
