@@ -1,8 +1,7 @@
-import { useState, ChangeEvent } from 'react'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { useColorModeValue, Stack, FormControl, FormLabel, Input, Checkbox, Button, Box, Link, FormErrorMessage } from '@chakra-ui/react'
+import { useColorModeValue, Stack, Checkbox, Button, Box, Link } from '@chakra-ui/react'
 import MyInput from './parts/MyInput'
 import { useAuth } from '../../contexts/AuthContext'
 
