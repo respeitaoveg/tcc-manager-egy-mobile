@@ -47,7 +47,7 @@ export default function LoginForm() {
             />
             <MyInput
               id='login'
-              type='text'
+              type='password'
               formLabel='Senha'
               error={errors.password?.message}
               register={{...register('password')}}
