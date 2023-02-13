@@ -19,24 +19,9 @@ export default function Login() {
   const auth = useAuth()
   const navigate = useNavigate()
 
-  const [loginInput, setLoginInput] = useState('')
-  const [passwordInput, setPasswordInput] = useState('')
-
-  function handleClickLogin() {
-    auth?.login(loginInput, passwordInput)
-  }
-
   useEffect(() => {
     if (auth?.user) navigate('/')
   }, [auth?.user])
-
-  function handleLoginInputChange(e: ChangeEvent<HTMLInputElement>) {
-    setLoginInput(e.target.value)
-  }
-
-  function handlePasswordInputChange(e: ChangeEvent<HTMLInputElement>) {
-    setPasswordInput(e.target.value)
-  }
 
   return (
     <Flex

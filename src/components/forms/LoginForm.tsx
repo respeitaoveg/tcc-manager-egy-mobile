@@ -4,6 +4,7 @@ import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useColorModeValue, Stack, FormControl, FormLabel, Input, Checkbox, Button, Box, Link, FormErrorMessage } from '@chakra-ui/react'
 import MyInput from './parts/MyInput'
+import { useAuth } from '../../contexts/AuthContext'
 
 const schema = yup.object().shape({
   login: yup.string().required('Campo requerido'),
@@ -16,15 +17,14 @@ interface LoginFormInputs {
 }
 
 export default function LoginForm() {
+  const auth = useAuth()
   const { register, handleSubmit, formState: { errors }, getValues} = useForm<LoginFormInputs>({
     mode: 'onBlur',
     resolver: yupResolver(schema)
   })
 
-  console.log(getValues('login'))
-
   function onSubmit(values: LoginFormInputs) {
-    console.log(111, values)
+    auth?.login(values.login, values.password)
   }
 
   return (
