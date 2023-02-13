@@ -46,8 +46,6 @@ export default function ResumeCartForm() {
   })
 
   function onSubmit(values: requestRegisterBudget) {
-    console.log(333, values)
-
     api.registerBudget(values)
   }
 
