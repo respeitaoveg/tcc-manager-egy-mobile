@@ -1,9 +1,5 @@
-import { Button } from '@chakra-ui/button'
 import { useColorModeValue } from '@chakra-ui/color-mode'
-import { FormControl, FormLabel } from '@chakra-ui/form-control'
 import { HStack, Text, VStack } from '@chakra-ui/layout'
-import { Box, Select } from '@chakra-ui/react'
-import { Switch } from '@chakra-ui/switch'
 import {
   Table,
   TableContainer,
@@ -14,6 +10,7 @@ import {
   Thead,
   Tr
 } from '@chakra-ui/table'
+import ResumeCartForm from '../components/forms/ResumeCartForm'
 import { useCart } from '../contexts/CartContext'
 import { useCustomer } from '../contexts/CustomerContext'
 
@@ -105,45 +102,7 @@ export default function ResumeCart() {
         </TableContainer>
       </VStack>
 
-      <VStack
-        bg={useColorModeValue('white', 'gray.800')}
-        rounded="lg"
-        shadow="lg"
-        padding={2}
-        spacing={4}
-        width={'100%'}
-      >
-        <Text fontWeight="semibold">Foma de pagamento</Text>
-
-        <HStack w="full">
-          <FormLabel htmlFor="email-alerts" mb="0">
-            <Text fontWeight="semibold">Gerar nota fiscal?</Text>
-          </FormLabel>
-          <Switch id="email-alerts" />
-        </HStack>
-        <Box w="full">
-          <Text fontSize="sm" fontWeight="semibold">
-            Forma de pagamento
-          </Text>
-          <Select placeholder="Selecione">
-            <option value="card">Cartão</option>
-            <option value="pix">Pix</option>
-            <option value="cash">Dinheiro</option>
-          </Select>
-        </Box>
-        <Box w="full">
-          <Text fontSize="sm" fontWeight="semibold">
-            Bandeira
-          </Text>
-          <Select placeholder="Selecione">
-            <option value="option1">Mastercard</option>
-          </Select>
-        </Box>
-      </VStack>
-
-      <Button width="100%" colorScheme="blue">
-        Confirmar
-      </Button>
+      <ResumeCartForm />
     </VStack>
   )
 }
