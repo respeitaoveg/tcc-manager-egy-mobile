@@ -18,9 +18,6 @@ export default function ResumeCart() {
   const { customer } = useCustomer()
   const { cart } = useCart()
 
-  console.log(111, customer)
-  console.log(222, cart)
-
   function totalBudget() {
     let total = 0
 
