@@ -17,7 +17,7 @@ interface LoginFormInputs {
 
 export default function LoginForm() {
   const auth = useAuth()
-  const { register, handleSubmit, formState: { errors }, getValues} = useForm<LoginFormInputs>({
+  const { register, handleSubmit, formState: { errors }} = useForm<LoginFormInputs>({
     mode: 'onBlur',
     resolver: yupResolver(schema)
   })
