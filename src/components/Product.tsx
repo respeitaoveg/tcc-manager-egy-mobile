@@ -48,12 +48,12 @@ function Product(product: product) {
         borderRadius="lg"
         width="25%"
         maxW= '150px'
-        src={imagemBase64}
+        src={`data:image/png;base64, ${imagemBase64}`}
         alt={`Picture of ${nomeImagem}`}
       />
 
-      <VStack alignItems="start" width="60%">
-        <Text fontSize="2xl">{nome}</Text>
+      <VStack alignItems="start" width="60%" overflow='auto'>
+        <Text fontSize="xl" whiteSpace={'nowrap'}>{nome}</Text>
         <Text fontSize="sm">{descricao}</Text>
         <HStack>
           <Text fontWeight="semibold">Preço:</Text>

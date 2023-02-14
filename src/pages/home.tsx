@@ -16,7 +16,7 @@ export default function Home() {
 
   async function getProducts() {
     try {
-      const data = await api.products()
+      const data = await api.products({ nome: 'trena'})
 
       if (data) setProducts(data)
     } catch (error) {

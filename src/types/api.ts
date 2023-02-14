@@ -53,6 +53,27 @@ export interface cart {
   quantity: number
 }
 
+export interface requestProducts {
+  cod?: string
+  nome?: string
+}
+
+export interface responseProducts {
+  produtos: [
+    {
+      cod: string
+      descricao: string
+      estoqueAtual: number
+      id: number
+      imagemBase64: string
+      nome: string
+      nomeImagem: string
+      unidadeMedida: 'CAIXA'
+      valorUnidade: string
+    }
+  ]
+}
+
 export interface requestConsultUser {
   login?: string
   nome?: string
@@ -171,14 +192,14 @@ export interface requestInvoice {
 }
 
 export interface responseInvoice {
-  chaveAcesso: string,
-  dataCancelamento: string,
-  dataCriacao: string,
-  dataEnvio: string,
-  id: number,
-  protocolo: string,
-  protocoloCancelamento: string,
-  statusNotaFiscal: "CONCLUIDO",
-  xml: string,
+  chaveAcesso: string
+  dataCancelamento: string
+  dataCriacao: string
+  dataEnvio: string
+  id: number
+  protocolo: string
+  protocoloCancelamento: string
+  statusNotaFiscal: 'CONCLUIDO'
+  xml: string
   xmlCancelamento: string
 }
