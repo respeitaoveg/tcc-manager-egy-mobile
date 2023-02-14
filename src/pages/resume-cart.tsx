@@ -29,7 +29,7 @@ export default function ResumeCart() {
   }
 
   return (
-    <VStack spacing={8} maxWidth="600px">
+    <VStack spacing={8}>
       <VStack
         bg={useColorModeValue('white', 'gray.800')}
         rounded="lg"
@@ -67,7 +67,7 @@ export default function ResumeCart() {
         width={'100%'}
       >
         <Text fontWeight="semibold">Resumo da compra</Text>
-        <TableContainer>
+        <TableContainer w='100%'>
           <Table variant="striped" colorScheme="teal">
             <Thead>
               <Tr>
