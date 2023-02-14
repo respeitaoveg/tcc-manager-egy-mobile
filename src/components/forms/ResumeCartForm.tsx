@@ -3,7 +3,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm } from 'react-hook-form'
 import { HStack, Text, VStack } from '@chakra-ui/layout'
 import { FormLabel } from '@chakra-ui/form-control'
-import { Button } from '@chakra-ui/react'
+import { Button, useToast } from '@chakra-ui/react'
 import { Switch } from '@chakra-ui/switch'
 import { useColorModeValue } from '@chakra-ui/color-mode'
 import { MySelect } from './parts/MySelect'
@@ -12,11 +12,14 @@ import { useCustomer } from '../../contexts/CustomerContext'
 import { useCart } from '../../contexts/CartContext'
 import { ClientApi } from '../../services/ClientApi'
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 export default function ResumeCartForm() {
   const { customer } = useCustomer()
   const { cart } = useCart()
   const api = new ClientApi()
+  const toast = useToast()
+  const navigate = useNavigate()
 
   const [hasInvoice, setHasInvoice] = useState(false)
 
@@ -51,10 +54,25 @@ export default function ResumeCartForm() {
   async function onSubmit(values: requestRegisterBudget) {
     const response = await api.registerBudget(values)
 
-    if (hasInvoice && response?.id)
-      api.invoice({ budgetId: response.id.toString() })
+    if (response) toast({
+      title: 'Orçamento gerado!',
+      description: 'Orçamento gerado com sucesso.',
+      status: 'success',
+      duration: 2000
+    })
 
-    console.log(111, response)
+    if (hasInvoice && response?.id) {
+      const responseInvoice = await api.invoice({ budgetId: response.id.toString() })
+
+      if (responseInvoice) toast({
+        title: 'Nota gerada!',
+        description: 'Nota gerada com sucesso.',
+        status: 'success',
+        duration: 5000
+      })
+    }
+
+    navigate('/')
   }
 
   function handleOnChangeInvoice() {
