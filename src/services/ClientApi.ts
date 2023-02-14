@@ -1,4 +1,4 @@
-import axios, { AxiosInstance } from 'axios'
+import axios, { AxiosInstance, AxiosRequestConfig } from 'axios'
 import {
   api,
   consultUser,
@@ -6,7 +6,6 @@ import {
   requestConsultUser,
   requestRegisterBudget,
   requestRegisterUser,
-  responseConsultUser,
   responseRegisterUser,
   user
 } from '../types/api'
@@ -38,32 +37,41 @@ const products = [
   }
 ]
 
-const user = {
-  nome: 'Yuri',
-  email: 'yuri.moc.rb@gmail.com',
-  roleGNFE: 'admin',
-  dataExpiracaoSenha: '12/12/2024'
-}
-
 export class ClientApi implements api {
-  private httpClient: AxiosInstance
+  private _http: AxiosInstance
 
   constructor() {
-    this.httpClient = axios.create({
+    this._http = axios.create({
       baseURL: import.meta.env.VITE_BASE_URL
     })
   }
 
+  private getAxiosConfig(): AxiosRequestConfig<any> {
+    const aux = localStorage.getItem('auth')
+
+    if (aux) {
+      const auth = JSON.parse(aux)
+
+      return {
+        headers: {
+          'x-access-token': auth.token
+        }
+      }
+    }
+
+    return {}
+  }
+
   async login(login: string, password: string): Promise<user | undefined> {
     try {
-      const response = await this.httpClient.post('/usuario/v1/login', {
+      const response = await this._http.post('/usuario/v1/login', {
         login,
         senha: password
       })
 
-      return response.data
+      localStorage.setItem('auth', JSON.stringify(response.data))
 
-      // return user
+      return response.data
     } catch (error) {
       console.error(error)
     }
@@ -75,7 +83,7 @@ export class ClientApi implements api {
 
   async products(params?: any): Promise<product[] | undefined> {
     try {
-      // const response = await this.httpClient.post('/produto/v1/buscar', params)
+      // const response = await this._http.post('/produto/v1/buscar', params, this.getAxiosConfig())
 
       // return response.data
       return products
@@ -88,20 +96,13 @@ export class ClientApi implements api {
     params?: requestConsultUser
   ): Promise<consultUser | undefined> {
     try {
-      // const response = await this.httpClient.post('/usuario/v1/consultar', params)
+      const response = await this._http.post(
+        '/usuario/v1/consultar',
+        params,
+        this.getAxiosConfig()
+      )
 
-      // return response.data
-
-      if (params?.login === '2') {
-        return {
-          'id': 2,
-          'nome': 'EMPRESA TESTE',
-          'cpfCnpj': '10735961921',
-          'roleGNFE': 'ADMIN'
-        } as consultUser
-      }
-
-      return
+      return response.data?.usuariosAtivos[0]
     } catch (error) {
       console.error(error)
     }
@@ -111,10 +112,7 @@ export class ClientApi implements api {
     params: requestRegisterUser
   ): Promise<responseRegisterUser | undefined> {
     try {
-      const response = await this.httpClient.post(
-        '/usuario/v1/registrar',
-        params
-      )
+      const response = await this._http.post('/usuario/v1/registrar', params)
 
       return response.data
     } catch (error) {
@@ -126,10 +124,7 @@ export class ClientApi implements api {
     params: requestRegisterBudget
   ): Promise<any | undefined> {
     try {
-      const response = await this.httpClient.post(
-        '/orcamento/v1/cadastrar',
-        params
-      )
+      const response = await this._http.post('/orcamento/v1/cadastrar', params, this.getAxiosConfig())
 
       return response.data
     } catch (error) {
