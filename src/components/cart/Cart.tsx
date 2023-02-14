@@ -7,8 +7,7 @@ import {
   InputRightElement,
   useToast,
   VStack,
-  Text,
-  Box
+  Text
 } from '@chakra-ui/react'
 import ProductCart from './ProductCart'
 import { ChangeEvent, useState } from 'react'
@@ -97,7 +96,7 @@ export default function Cart({ onToggleSidepaneDrawer }: CartProps) {
         <HStack justify="space-between">
           <HStack>
             <Text fontWeight='semibold'>Cliente:</Text>
-            <Text>Ana Maria</Text>
+            <Text>{customer.nome}</Text>
           </HStack>
           <Button
             colorScheme="red"
