@@ -68,53 +68,117 @@ export interface responseConsultUser {
       roleGNFE: string
     } | null
   ]
-  usuariosBloqueados: [
-    {
-      cpfCnpj: string
-      id: number
-      nome: string
-      roleGNFE: string
-    }
-  ] | null
-  usuariosInativos: [
-    {
-      cpfCnpj: string
-      id: number
-      nome: string
-      roleGNFE: string
-    }
-  ] | null
+  usuariosBloqueados:
+    | [
+        {
+          cpfCnpj: string
+          id: number
+          nome: string
+          roleGNFE: string
+        }
+      ]
+    | null
+  usuariosInativos:
+    | [
+        {
+          cpfCnpj: string
+          id: number
+          nome: string
+          roleGNFE: string
+        }
+      ]
+    | null
 }
 
 export interface requestRegisterUser {
-  nome?: string,
-  cpfCnpj?: string,
-  bairro?: string,
-  cep?: string,
-  cidade?: string,
-  codigoIBGE?: string,
-  email?: string,
-  endereco?: string,
-  estado?: string,
-  login?: string,
-  numero: number,
-  roleGD?: string,
+  nome?: string
+  cpfCnpj?: string
+  bairro?: string
+  cep?: string
+  cidade?: string
+  codigoIBGE?: string
+  email?: string
+  endereco?: string
+  estado?: string
+  login?: string
+  numero: number
+  roleGD?: string
   telefone?: string
 }
 
 export interface responseRegisterUser {
-  body?: any,
+  body?: any
   statusCode?: string
 }
 
 export interface requestRegisterBudget {
-  bandeira: string,
-  clienteId: number,
-  formaPagamento: string,
+  bandeira: string
+  clienteId: number
+  formaPagamento: string
   listaProdutoResponse: [
     {
-      id: number,
+      id: number
       quantidade: number
     }
   ]
+}
+
+export interface responseRegisterBudget {
+  autor: {
+    cpfCnpj: string
+    id: number
+    nome: string
+    roleGNFE: 'ADMIN'
+  }
+  bandeira: 'MASTERCARD'
+  cliente: {
+    cpfCnpj: string
+    id: number
+    nome: string
+    roleGNFE: 'ADMIN'
+  }
+  formadePagamento: 'DINHEIRO'
+  id: number
+  listaProdutoResponse: [
+    {
+      cod: string
+      descricao: string
+      estoqueAtual: number
+      id: number
+      imagemBase64: string
+      nome: string
+      nomeImagem: string
+      unidadeMedida: 'CAIXA'
+      valorUnidade: string
+    }
+  ]
+  notaFiscal: {
+    chaveAcesso: string
+    dataCancelamento: string
+    dataCriacao: string
+    dataEnvio: string
+    id: number
+    protocolo: string
+    protocoloCancelamento: string
+    statusNotaFiscal: 'CONCLUIDO'
+    xml: string
+    xmlCancelamento: string
+  }
+}
+
+export interface requestInvoice {
+  budgetId: string
+}
+
+export interface responseInvoice {
+  chaveAcesso: string,
+  dataCancelamento: string,
+  dataCriacao: string,
+  dataEnvio: string,
+  id: number,
+  protocolo: string,
+  protocoloCancelamento: string,
+  statusNotaFiscal: "CONCLUIDO",
+  xml: string,
+  xmlCancelamento: string
 }

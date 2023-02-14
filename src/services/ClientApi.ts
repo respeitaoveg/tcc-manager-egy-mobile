@@ -4,8 +4,11 @@ import {
   consultUser,
   product,
   requestConsultUser,
+  requestInvoice,
   requestRegisterBudget,
   requestRegisterUser,
+  responseInvoice,
+  responseRegisterBudget,
   responseRegisterUser,
   user
 } from '../types/api'
@@ -122,9 +125,21 @@ export class ClientApi implements api {
 
   async registerBudget(
     params: requestRegisterBudget
-  ): Promise<any | undefined> {
+  ): Promise<responseRegisterBudget | undefined> {
     try {
       const response = await this._http.post('/orcamento/v1/cadastrar', params, this.getAxiosConfig())
+
+      return response.data
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  async invoice({ budgetId }: requestInvoice): Promise<responseInvoice | undefined> {
+    try {
+      const response = await this._http.get(`/orcamento/v1/enviar-nota-fiscal/${budgetId}`, this.getAxiosConfig())
+
+      console.log(222, response.data)
 
       return response.data
     } catch (error) {

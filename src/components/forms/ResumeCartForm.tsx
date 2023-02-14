@@ -11,11 +11,14 @@ import { requestRegisterBudget } from '../../types/api'
 import { useCustomer } from '../../contexts/CustomerContext'
 import { useCart } from '../../contexts/CartContext'
 import { ClientApi } from '../../services/ClientApi'
+import { useState } from 'react'
 
 export default function ResumeCartForm() {
   const { customer } = useCustomer()
   const { cart } = useCart()
   const api = new ClientApi()
+
+  const [hasInvoice, setHasInvoice] = useState(false)
 
   const schema = yup.object().shape({
     bandeira: yup.string().required(),
@@ -45,8 +48,17 @@ export default function ResumeCartForm() {
     resolver: yupResolver(schema)
   })
 
-  function onSubmit(values: requestRegisterBudget) {
-    api.registerBudget(values)
+  async function onSubmit(values: requestRegisterBudget) {
+    const response = await api.registerBudget(values)
+
+    if (hasInvoice && response?.id)
+      api.invoice({ budgetId: response.id.toString() })
+
+    console.log(111, response)
+  }
+
+  function handleOnChangeInvoice() {
+    setHasInvoice(!hasInvoice)
   }
 
   return (
@@ -57,14 +69,18 @@ export default function ResumeCartForm() {
         shadow="lg"
         padding={2}
         spacing={4}
-        width={'100%'}
+        width="100%"
       >
         <Text fontWeight="semibold">Foma de pagamento</Text>
         <HStack w="full">
-          <FormLabel htmlFor="email-alerts" mb="0">
+          <FormLabel htmlFor="invoice" mb="0">
             <Text fontWeight="semibold">Gerar nota fiscal?</Text>
           </FormLabel>
-          <Switch id="email-alerts" />
+          <Switch
+            id="invoice"
+            isChecked={hasInvoice}
+            onChange={handleOnChangeInvoice}
+          />
         </HStack>
         <MySelect
           id="formaPagamento"
