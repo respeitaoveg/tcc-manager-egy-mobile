@@ -9,6 +9,7 @@ export interface user {
   email: string
   roleGNFE: string
   dataExpiracaoSenha: string
+  token: string
 }
 
 export interface consultUser {
