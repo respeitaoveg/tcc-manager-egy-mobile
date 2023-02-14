@@ -71,7 +71,7 @@ export default function ResumeCartForm() {
           formLabel="Forma de pagamento"
           error={errors.formaPagamento?.message}
           register={register('formaPagamento')}
-          options={['Pix', 'Cartão de crédito', 'Dinheiro']}
+          options={['DINHEIRO', 'CARTÃO DE CRÉDITO', 'PIX']}
           isRequired
         />
         <MySelect
@@ -79,7 +79,7 @@ export default function ResumeCartForm() {
           formLabel="Bandeira"
           error={errors.bandeira?.message}
           register={register('bandeira')}
-          options={['Mastercard', 'Cielo']}
+          options={['MASTERCARD', 'VISA']}
           isRequired
         />
         <Button
