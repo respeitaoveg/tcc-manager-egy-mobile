@@ -89,8 +89,6 @@ export class ClientApi implements api {
     try {
       const response = await this._http.post('/produto/v1/buscar', params, this.getAxiosConfig())
 
-      console.log(response.data.produtos)
-
       products.push(response.data.produtos[0])
 
       return products
