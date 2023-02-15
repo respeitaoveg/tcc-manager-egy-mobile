@@ -26,15 +26,16 @@ export default function ProductCart({ product, quantity, removeProduct }: Produc
           width="25%"
           maxW= '100px'
           objectFit="cover"
-          src={product.imagemBase64}
+          src={`data:image/png;base64, ${product.imagemBase64}`}
           alt={product.nome}
         />
         <Box w='75%'>
           <HStack justify="space-between">
-            <Text fontSize="lg" fontWeight="bold">
+            <Text w='80%' fontSize="lg" fontWeight="bold" overflow='auto' whiteSpace='nowrap'>
               {product.nome}
             </Text>
             <Button
+              w='20%'
               colorScheme="red"
               variant="ghost"
               onClick={() => removeProduct(product)}

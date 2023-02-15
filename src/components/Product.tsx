@@ -52,8 +52,8 @@ function Product(product: product) {
         alt={`Picture of ${nomeImagem}`}
       />
 
-      <VStack alignItems="start" width="60%" overflow='auto'>
-        <Text fontSize="xl" whiteSpace={'nowrap'}>{nome}</Text>
+      <VStack alignItems="start" width="60%" overflow='hidden'>
+        <Text w='100%' fontSize="xl" overflow='auto' whiteSpace='nowrap'>{nome}</Text>
         <Text fontSize="sm">{descricao}</Text>
         <HStack>
           <Text fontWeight="semibold">Preço:</Text>
