@@ -6,8 +6,18 @@ import {
   InputRightElement,
   Button
 } from '@chakra-ui/react'
+import { useState } from 'react'
 
-export default function SearchProduct() {
+interface searchProductProps {
+  getProducts(search: string): void
+}
+
+export default function SearchProduct({ getProducts }: searchProductProps) {
+  const [search, setSearch] = useState('')
+
+  function searchProduct() {
+    getProducts(search)
+  }
   return (
     <InputGroup>
       <InputLeftElement pointerEvents="none">
@@ -16,10 +26,10 @@ export default function SearchProduct() {
       <Input
         type="text"
         placeholder="Produto"
-        onChange={(e) => e.target.value}
+        onChange={(e) => setSearch(e.target.value)}
       />
       <InputRightElement mr={2}>
-        <Button colorScheme="teal" h="1.75rem" size="sm" onClick={() => ({})}>
+        <Button colorScheme="teal" h="1.75rem" size="sm" onClick={searchProduct}>
           <CheckIcon color="white" />
         </Button>
       </InputRightElement>

@@ -11,12 +11,14 @@ export default function Home() {
 
 
   useEffect(() => {
-    getProducts()
+    getProducts('trena')
   }, [])
 
-  async function getProducts() {
+  async function getProducts(search: string) {
     try {
-      const data = await api.products({ nome: 'trena'})
+      const data = await api.products({ nome: search })
+
+      console.log(data)
 
       if (data) setProducts(data)
     } catch (error) {
@@ -26,7 +28,7 @@ export default function Home() {
 
   return (
     <VStack alignItems="stretch" spacing={4} maxWidth="100%" height="100vh">
-      <SearchProduct />
+      <SearchProduct getProducts={getProducts} />
       <ListProducts products={products}  />
     </VStack>
   )
