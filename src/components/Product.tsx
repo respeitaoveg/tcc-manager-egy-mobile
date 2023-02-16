@@ -32,8 +32,8 @@ function Product(product: product) {
     return notFoundImage
   }
 
-  function addProduct() {
-    cart?.addProduct(product)
+  function addItemProduct() {
+    cart?.addItemProduct(product)
 
     toast({
       description: `${nome} adicionado(a) com sucesso!`,
@@ -42,8 +42,8 @@ function Product(product: product) {
     })
   }
 
-  function removeProduct() {
-    cart.removeProduct(product)
+  function removeItemProduct() {
+    cart.removeItemProduct(product)
 
     toast({
       description: `${nome} removido(a) com sucesso!`,
@@ -100,14 +100,14 @@ function Product(product: product) {
             aria-label="Search database"
             icon={<AddIcon />}
             variant="outline"
-            onClick={addProduct}
+            onClick={addItemProduct}
           />
           <IconButton
             colorScheme="red"
             aria-label="Search database"
             icon={<MinusIcon />}
             variant="outline"
-            onClick={removeProduct}
+            onClick={removeItemProduct}
           />
         </VStack>
       </HStack>

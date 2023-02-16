@@ -3,7 +3,8 @@ import { product, cart } from "../types/api"
 
 interface CartContext {
   cart: cart[]
-  addProduct(product: product): void
+  addItemProduct(product: product): void
+  removeItemProduct(product: product): void
   removeProduct(product: product): void
 }
 
@@ -12,7 +13,7 @@ export const CartContext = createContext<CartContext>({} as CartContext)
 export default function CartProvider({ children }: { children: ReactNode }) {
   const [cart, setCart] = useState<cart[]>([])
 
-  function addProduct(product: product) {
+  function addItemProduct(product: product) {
     if (cart.length === 0) return setCart([{product, quantity: 1}])
 
     let hasProduct = false
@@ -30,6 +31,22 @@ export default function CartProvider({ children }: { children: ReactNode }) {
     }
   }
 
+  function removeItemProduct(product: product) {
+    if (cart.length === 0) return
+
+    let hasProduct = false
+
+    for (const item of cart) {
+      if (item.product.id === product.id) {
+        item.quantity--
+
+        hasProduct = true
+      }
+    }
+
+    // if (!hasProduct)
+  }
+
   function removeProduct(product: product) {
     setCart([...cart.filter((item) => item.product.id !== product.id)])
   }
@@ -37,7 +54,8 @@ export default function CartProvider({ children }: { children: ReactNode }) {
   const value = useMemo(
     () => ({
       cart,
-      addProduct,
+      addItemProduct,
+      removeItemProduct,
       removeProduct
     }),
     [cart]
