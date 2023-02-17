@@ -4,6 +4,8 @@ import { useToast } from '@chakra-ui/toast'
 import { useNavigate } from 'react-router-dom'
 import { useCart } from '../../contexts/CartContext'
 import { useCustomer } from '../../contexts/CustomerContext'
+import parseCurrencyString from '../../utils/parseCurrencyString'
+import parseLocaleCurrency from '../../utils/parseLocaleCurrency'
 
 interface ResumeCartFooterProps {
   onToggleSidepaneDrawer(): void
@@ -19,7 +21,7 @@ export default function ResumeCartFooter({ onToggleSidepaneDrawer }: ResumeCartF
     let total = 0
 
     for (const value of cart) {
-      total += parseFloat(value.product.valorUnidade) * value.quantity
+      total += (value.quantity * parseCurrencyString(value.product.valorUnidade))
     }
 
     return total
@@ -55,9 +57,9 @@ export default function ResumeCartFooter({ onToggleSidepaneDrawer }: ResumeCartF
         <Text fontSize="lg" fontWeight="semibold">
           Valor total:
         </Text>
-        <Text>R$ {totalBudget()}</Text>
+        <Text>{parseLocaleCurrency(totalBudget())}</Text>
       </HStack>
-      <Button colorScheme="blue" onClick={onclickContinueCart}>
+      <Button colorScheme="teal" onClick={onclickContinueCart}>
         Continuar
       </Button>
     </HStack>

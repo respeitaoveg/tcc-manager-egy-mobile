@@ -8,13 +8,14 @@ import {
   VStack,
   useToast,
   Divider,
-  Badge,
   Tag
 } from '@chakra-ui/react'
 import { product } from '../../types/api'
-import notFoundImage from '../../assets/images/not-found-image.png'
 import { useCart } from '../../contexts/CartContext'
-import { useState } from 'react'
+import parseCurrencyString from '../../utils/parseCurrencyString'
+import parseLocaleCurrency from '../../utils/parseLocaleCurrency'
+import checkImage from '../../utils/checkImage'
+import checkDescription from '../../utils/checkDescription'
 
 interface ProductCartProps {
   product: product
@@ -32,12 +33,6 @@ export default function ProductCart({ product, quantity }: ProductCartProps) {
     nomeImagem,
     valorUnidade
   } = product
-
-  function checkImage() {
-    if (imagemBase64) return `data:image/png;base64, ${imagemBase64}`
-
-    return notFoundImage
-  }
 
   function _addItemProduct() {
     addItemProduct(product)
@@ -68,14 +63,15 @@ export default function ProductCart({ product, quantity }: ProductCartProps) {
       w='full'
       overflow="hidden"
     >
-      <HStack w="full" h="15%" px={3} spacing={3}>
+      <HStack w="full" h="15%" px={3} pb={1} spacing={3} borderBottom='solid 1px teal'>
         <Text
           w="100%"
-          fontSize="xl"
+          fontSize="lg"
           fontWeight="medium"
           color="teal"
-          overflow="auto"
           whiteSpace="nowrap"
+          lineHeight='normal'
+          overflow='auto'
         >
           {nome}
         </Text>
@@ -91,11 +87,11 @@ export default function ProductCart({ product, quantity }: ProductCartProps) {
         <Image
           borderRadius="lg"
           width="75px"
-          src={checkImage()}
+          src={checkImage(imagemBase64)}
           alt={`Picture of ${nomeImagem}`}
         />
         <Text fontSize="sm" h="full" w="100%" overflow="auto">
-          {descricao}
+          {checkDescription(descricao)}
         </Text>
         <VStack spacing={5}>
           <IconButton
@@ -117,14 +113,16 @@ export default function ProductCart({ product, quantity }: ProductCartProps) {
 
       <Divider color='teal' />
 
-      <HStack>
-        <Text fontWeight="semibold">Preço unitário:</Text>
-        <Text>R$ {valorUnidade}</Text>
-      </HStack>
-      <HStack>
-        <Text fontWeight="semibold">Preço total por item:</Text>
-        <Text>R$ {quantity * parseFloat(valorUnidade)}</Text>
-      </HStack>
+      <VStack px={3} py={2} w='100%' alignItems='flex-start'>
+        <HStack>
+          <Text fontWeight="semibold">Preço unitário:</Text>
+          <Text>{parseLocaleCurrency(parseCurrencyString(valorUnidade))}</Text>
+        </HStack>
+        <HStack>
+          <Text fontWeight="semibold">Preço pela quantidade:</Text>
+          <Text>{parseLocaleCurrency((quantity * parseCurrencyString(valorUnidade)))}</Text>
+        </HStack>
+      </VStack>
     </VStack>
   )
 }

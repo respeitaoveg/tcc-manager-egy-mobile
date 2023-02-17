@@ -6,16 +6,18 @@ import {
   HStack,
   IconButton,
   VStack,
-  useToast,
-  Divider
+  useToast
 } from '@chakra-ui/react'
 import { useCart } from '../contexts/CartContext'
 import { product } from '../types/api'
-import notFoundImage from '../assets/images/not-found-image.png'
+import parseCurrencyString from '../utils/parseCurrencyString'
+import parseLocaleCurrency from '../utils/parseLocaleCurrency'
+import checkImage from '../utils/checkImage'
+import checkDescription from '../utils/checkDescription'
 
 function Product(product: product) {
   const toast = useToast()
-  const cart = useCart()
+  const { removeItemProduct, addItemProduct} = useCart()
 
   const {
     nome,
@@ -26,14 +28,8 @@ function Product(product: product) {
     estoqueAtual
   } = product
 
-  function checkImage() {
-    if (imagemBase64) return `data:image/png;base64, ${imagemBase64}`
-
-    return notFoundImage
-  }
-
-  function addItemProduct() {
-    cart?.addItemProduct(product)
+  function _addItemProduct() {
+    addItemProduct(product)
 
     toast({
       description: `Item ${nome} adicionado(a) com sucesso!`,
@@ -42,8 +38,8 @@ function Product(product: product) {
     })
   }
 
-  function removeItemProduct() {
-    cart.removeItemProduct(product)
+  function _removeItemProduct() {
+    removeItemProduct(product)
 
     toast({
       description: `Item ${nome} removido(a) com sucesso!`,
@@ -57,7 +53,7 @@ function Product(product: product) {
       rounded="lg"
       shadow="lg"
       spacing={2}
-      maxH="230px"
+      maxH="250px"
       overflow="hidden"
     >
       <HStack w="full" h="15%" px={3} py={5} backgroundColor="teal">
@@ -68,6 +64,7 @@ function Product(product: product) {
           color="white"
           overflow="auto"
           whiteSpace="nowrap"
+          lineHeight='normal'
         >
           {nome}
         </Text>
@@ -84,15 +81,15 @@ function Product(product: product) {
         </Text>
       </HStack>
 
-      <HStack w="full" h="70%" overflow="hidden" spacing={1} p={3}>
+      <HStack w="full" h="70%" overflow="hidden" spacing={1} p={3} borderBottom='1px solid teal'>
         <Image
           borderRadius="lg"
           width="100px"
-          src={checkImage()}
+          src={checkImage(imagemBase64)}
           alt={`Picture of ${nomeImagem}`}
         />
         <Text fontSize="sm" h="full" w="100%" overflow="auto">
-          {descricao}
+          {checkDescription(descricao)}
         </Text>
         <VStack spacing={5}>
           <IconButton
@@ -100,29 +97,27 @@ function Product(product: product) {
             aria-label="Search database"
             icon={<AddIcon />}
             variant="outline"
-            onClick={addItemProduct}
+            onClick={_addItemProduct}
           />
           <IconButton
             colorScheme="red"
             aria-label="Search database"
             icon={<MinusIcon />}
             variant="outline"
-            onClick={removeItemProduct}
+            onClick={_removeItemProduct}
           />
         </VStack>
       </HStack>
 
-      <Divider color='teal' />
-
       <HStack
         w="full"
         h="15%"
-        p={3}
         justifyContent="center"
+        align='center'
+        pb={2}
         fontSize="xl"
       >
-        <Text fontWeight="semibold">Preço:</Text>
-        <Text>R$ {valorUnidade}</Text>
+        <Text color='teal.600'>{parseLocaleCurrency(parseCurrencyString(valorUnidade))}</Text>
       </HStack>
     </VStack>
   )

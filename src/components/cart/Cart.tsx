@@ -110,7 +110,7 @@ export default function Cart({ onToggleSidepaneDrawer }: CartProps) {
 
       {!customer && (
         <HStack justify='center'>
-          <Button colorScheme='teal' onClick={() => createCustomer()}>Criar cliente</Button>
+          <Button variant='outline' colorScheme='teal' onClick={() => createCustomer()}>Criar cliente</Button>
         </HStack>
       )}
 

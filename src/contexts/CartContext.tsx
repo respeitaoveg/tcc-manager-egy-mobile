@@ -29,8 +29,6 @@ export default function CartProvider({ children }: { children: ReactNode }) {
       newCart.push(item)
     }
 
-    console.log(hasProduct)
-
     if (!hasProduct) setCart([...newCart, {product, quantity: 1}])
     else setCart([...newCart])
   }
@@ -41,9 +39,7 @@ export default function CartProvider({ children }: { children: ReactNode }) {
     const newCart = []
 
     for (const item of cart) {
-      if (item.product.id === product.id) {
-        item.quantity--
-      }
+      if (item.product.id === product.id) item.quantity--
 
       if (item.quantity === 0 ) removeProduct(product)
       else newCart.push(item)
