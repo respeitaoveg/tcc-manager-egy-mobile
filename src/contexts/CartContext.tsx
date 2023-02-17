@@ -17,6 +17,7 @@ export default function CartProvider({ children }: { children: ReactNode }) {
     if (cart.length === 0) return setCart([{product, quantity: 1}])
 
     let hasProduct = false
+    const newCart = []
 
     for (const item of cart) {
       if (item.product.id === product.id) {
@@ -24,27 +25,31 @@ export default function CartProvider({ children }: { children: ReactNode }) {
 
         hasProduct = true
       }
+
+      newCart.push(item)
     }
 
-    if (!hasProduct) {
-      setCart([...cart, {product, quantity: 1}])
-    }
+    console.log(hasProduct)
+
+    if (!hasProduct) setCart([...newCart, {product, quantity: 1}])
+    else setCart([...newCart])
   }
 
   function removeItemProduct(product: product) {
     if (cart.length === 0) return
 
-    let hasProduct = false
+    const newCart = []
 
     for (const item of cart) {
       if (item.product.id === product.id) {
         item.quantity--
-
-        hasProduct = true
       }
+
+      if (item.quantity === 0 ) removeProduct(product)
+      else newCart.push(item)
     }
 
-    // if (!hasProduct)
+    setCart([...newCart])
   }
 
   function removeProduct(product: product) {

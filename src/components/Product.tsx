@@ -36,7 +36,7 @@ function Product(product: product) {
     cart?.addItemProduct(product)
 
     toast({
-      description: `${nome} adicionado(a) com sucesso!`,
+      description: `Item ${nome} adicionado(a) com sucesso!`,
       status: 'success',
       duration: 2000
     })
@@ -46,7 +46,7 @@ function Product(product: product) {
     cart.removeItemProduct(product)
 
     toast({
-      description: `${nome} removido(a) com sucesso!`,
+      description: `Item ${nome} removido(a) com sucesso!`,
       status: 'success',
       duration: 2000
     })

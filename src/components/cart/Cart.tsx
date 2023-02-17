@@ -123,7 +123,6 @@ export default function Cart({ onToggleSidepaneDrawer }: CartProps) {
               key={key}
               product={item.product}
               quantity={item.quantity}
-              removeProduct={() => removeProduct(item.product)}
             />
           ))}
         </VStack>
