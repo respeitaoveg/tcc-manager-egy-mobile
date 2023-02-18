@@ -1,11 +1,11 @@
 import { createContext, ReactNode, useContext, useMemo, useState } from 'react'
 import { ClientApi } from '../services/ClientApi'
-import { consultUser, requestConsultUser, requestCreateCustomer, requestRegisterUser, responseConsultUser, responseCreateCustomer } from '../types/api'
+import { consultUser, requestConsultUser, requestCreateCustomer, responseCreateCustomer } from '../types/api'
 
 interface CustomerContext {
   customer: consultUser | undefined
   consultCustomer(cpf: string): Promise<consultUser | void>
-  createCustomer(params: requestConsultUser): Promise<responseConsultUser | void>
+  createCustomer(params: requestConsultUser): Promise<responseCreateCustomer | void>
   removeCustomer(): void
 }
 

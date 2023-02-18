@@ -243,3 +243,14 @@ export interface responseCreateCustomer {
   motivoBloqueio: undefined
   motivoDesativacao: { motivo: undefined; descricao: undefined }
 }
+
+export interface requestBudgetPdf {
+  orcamentoId: string
+}
+
+export interface responseBudgetPdf {
+  base64: string
+  base64Xml: string
+  base64XmlCancelamento: string
+  nomeArquivo: string
+}
