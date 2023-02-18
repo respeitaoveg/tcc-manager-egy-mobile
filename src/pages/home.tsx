@@ -4,7 +4,6 @@ import ListProducts from '../components/ListProducts'
 import SearchProduct from '../components/SearchProduct'
 import { ClientApi } from '../services/ClientApi'
 import { product } from '../types/api'
-import productsJson from '../../products'
 
 export default function Home() {
   const api = new ClientApi()
@@ -16,9 +15,9 @@ export default function Home() {
 
   async function getProducts(search: string) {
     try {
-      // const data = await api.products({ nome: search })
+      const data = await api.products({ nome: search })
 
-      if (productsJson) setProducts(productsJson.products)
+      if (data) setProducts(data)
     } catch (error) {
       console.error(error)
     }
