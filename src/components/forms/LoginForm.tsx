@@ -61,7 +61,7 @@ export default function LoginForm() {
                 <Checkbox>Lembrar-me</Checkbox>
                 <Link color={'blue.400'}>Esqueceu a senha?</Link>
               </Stack>
-              <Button onClick={handleSubmit(onSubmit)} colorScheme="blue">
+              <Button onClick={handleSubmit(onSubmit)} colorScheme="teal">
                 Entrar
               </Button>
             </Stack>
