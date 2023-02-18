@@ -54,6 +54,7 @@ function Product(product: product) {
       shadow="lg"
       spacing={2}
       maxH="250px"
+      minH='250px'
       overflow="hidden"
     >
       <HStack w="full" h="15%" px={3} py={5} backgroundColor="teal">
