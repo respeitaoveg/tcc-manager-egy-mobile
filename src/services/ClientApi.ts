@@ -4,13 +4,13 @@ import {
   consultUser,
   product,
   requestConsultUser,
+  requestCreateCustomer,
   requestInvoice,
   requestProducts,
   requestRegisterBudget,
-  requestRegisterUser,
+  responseCreateCustomer,
   responseInvoice,
   responseRegisterBudget,
-  responseRegisterUser,
   user
 } from '../types/api'
 
@@ -84,18 +84,6 @@ export class ClientApi implements api {
     }
   }
 
-  async registerUser(
-    params: requestRegisterUser
-  ): Promise<responseRegisterUser | undefined> {
-    try {
-      const response = await this._http.post('/usuario/v1/registrar', params)
-
-      return response.data
-    } catch (error) {
-      console.error(error)
-    }
-  }
-
   async registerBudget(
     params: requestRegisterBudget
   ): Promise<responseRegisterBudget | undefined> {
@@ -110,11 +98,19 @@ export class ClientApi implements api {
 
   async invoice({ budgetId }: requestInvoice): Promise<responseInvoice | undefined> {
     try {
-      // const response = await this._http.get(`/orcamento/v1/enviar-nota-fiscal/${budgetId}`, this.getAxiosConfig())
+      const response = await this._http.get(`/orcamento/v1/enviar-nota-fiscal/${budgetId}`, this.getAxiosConfig())
 
-      return true as any
+      return response.data
+    } catch (error) {
+      console.error(error)
+    }
+  }
 
-      // return response.data
+  async createCustomer(params: requestCreateCustomer): Promise<responseCreateCustomer | undefined> {
+    try {
+      const response = await this._http.post(`/usuario/v1/cadastrar`, params, this.getAxiosConfig())
+
+      return response.data
     } catch (error) {
       console.error(error)
     }

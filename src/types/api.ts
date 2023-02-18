@@ -23,7 +23,7 @@ export interface completeUser {
   bairro: string
   cep: string
   cidade: string
-  stringcodigoIBGE: string
+  codigoIBGE: string
   cpfCnpj: string
   email: string
   endereco: string
@@ -151,14 +151,14 @@ export interface responseRegisterBudget {
     nome: string
     roleGNFE: 'ADMIN'
   }
-  bandeira: 'MASTERCARD'
+  bandeira: 'MASTERCARD' | 'VISA' | 'ELO' | 'AMERICAN_EXPRESS' | 'HIPERCARD'
   cliente: {
     cpfCnpj: string
     id: number
     nome: string
     roleGNFE: 'ADMIN'
   }
-  formadePagamento: 'DINHEIRO'
+  formadePagamento: 'DINHEIRO' | 'CHEQUE' | 'CARTAO_CREDITO' | 'CARTAO_DEBITO' | 'CREDITO_LOJA' | 'VALE_ALIMENTACAO' | 'VALE_REFEICAO' | 'VALE_PRESENTE' | 'VALE_COMBUSTIVEL' | 'OUTROS'
   id: number
   listaProdutoResponse: [
     {
@@ -202,4 +202,44 @@ export interface responseInvoice {
   statusNotaFiscal: 'CONCLUIDO'
   xml: string
   xmlCancelamento: string
+}
+
+export interface requestCreateCustomer {
+  bairro: string
+  cep: string
+  cidade: string
+  codigoIBGE: string
+  cpfCnpj: string
+  email: string
+  endereco: string
+  estado: string
+  login: string
+  nome: string
+  numero: number
+  roleGD: 'ADMIN' | 'FUNCIONARIO' | 'FORNECEDOR' | 'CLIENTE'
+  telefone: string
+}
+
+export interface responseCreateCustomer {
+  id: number
+  cpfCnpj: string
+  nome: string
+  email: string
+  login: string
+  roleGD: string
+  telefone: string
+  cep: string
+  endereco: string
+  numero: number
+  bairro: string
+  cidade: string
+  codigoIBGE: string
+  estado: string
+  status: string
+  dataCadastro: string
+  dataUltimoAcesso: undefined
+  dataBloqueio: undefined
+  dataExpiracaoBloqueio: undefined
+  motivoBloqueio: undefined
+  motivoDesativacao: { motivo: undefined; descricao: undefined }
 }
