@@ -23,7 +23,7 @@ interface CartProps {
 
 export default function Cart({ onToggleSidepaneDrawer }: CartProps) {
   const toast = useToast()
-  const { cart, removeProduct } = useCart()
+  const { cart } = useCart()
   const { consultCustomer, customer, removeCustomer } = useCustomer()
   const navigate = useNavigate()
 
