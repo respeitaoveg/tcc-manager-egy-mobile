@@ -105,7 +105,7 @@ export default function ResumeCartForm() {
           formLabel="Forma de pagamento"
           error={errors.formaPagamento?.message}
           register={register('formaPagamento')}
-          options={['DINHEIRO', 'CARTÃO DE CRÉDITO', 'PIX']}
+          options={['DINHEIRO', 'CHEQUE', 'CARTAO_CREDITO', 'CARTAO_DEBITO', 'CREDITO_LOJA', 'VALE_ALIMENTACAO', 'VALE_REFEICAO', 'VALE_PRESENTE', 'VALE_COMBUSTIVEL', 'OUTROS']}
           isRequired
         />
         <MySelect
@@ -113,14 +113,14 @@ export default function ResumeCartForm() {
           formLabel="Bandeira"
           error={errors.bandeira?.message}
           register={register('bandeira')}
-          options={['MASTERCARD', 'VISA']}
+          options={['MASTERCARD', 'VISA', 'ELO', 'AMERICAN_EXPRESS', 'HIPERCARD']}
           isRequired
         />
         <Button
           type="submit"
           onClick={handleSubmit(onSubmit)}
           width="100%"
-          colorScheme="blue"
+          colorScheme="teal"
         >
           Confirmar
         </Button>
