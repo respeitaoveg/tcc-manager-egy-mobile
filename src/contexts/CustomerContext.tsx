@@ -1,6 +1,6 @@
 import { createContext, ReactNode, useContext, useMemo, useState } from 'react'
 import { ClientApi } from '../services/ClientApi'
-import { consultUser, requestConsultUser, requestRegisterUser, responseConsultUser } from '../types/api'
+import { consultUser, requestConsultUser, requestCreateCustomer, requestRegisterUser, responseConsultUser, responseCreateCustomer } from '../types/api'
 
 interface CustomerContext {
   customer: consultUser | undefined
@@ -36,13 +36,18 @@ export default function CustomerProvider({
     }
   }
 
-  async function createCustomer(params: requestRegisterUser): Promise<responseConsultUser | void> {
-    const response = await api.registerUser(params)
+  async function createCustomer(params: requestCreateCustomer): Promise<responseCreateCustomer | void> {
+    const response = await api.createCustomer(params)
 
     if (response) {
-      console.log(response)
-    } else {
-      setCustomer(undefined)
+      setCustomer({
+        cpfCnpj: response.cpfCnpj,
+        id: response.id,
+        nome: response.nome,
+        roleGNFE: response.roleGD
+      })
+
+      return response
     }
   }
 
