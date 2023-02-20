@@ -16,7 +16,7 @@ import { useNavigate } from 'react-router-dom'
 
 export default function ResumeCartForm() {
   const { customer } = useCustomer()
-  const { cart } = useCart()
+  const { cart, clearCart } = useCart()
   const api = new ClientApi()
   const toast = useToast()
   const navigate = useNavigate()
@@ -72,7 +72,9 @@ export default function ResumeCartForm() {
       })
     }
 
-    navigate('/')
+    clearCart()
+
+    navigate('/sale')
   }
 
   function handleOnChangeInvoice() {

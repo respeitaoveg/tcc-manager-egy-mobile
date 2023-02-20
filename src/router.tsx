@@ -5,6 +5,7 @@ import CreateCustomer from './pages/customer/create'
 import Home from './pages/home'
 import Login from './pages/login'
 import ResumeCart from './pages/resume-cart'
+import Sale from './pages/Sale'
 
 const router = createBrowserRouter([
   {
@@ -31,6 +32,10 @@ const router = createBrowserRouter([
       {
         path: '/resume-cart',
         element: <ResumeCart />
+      },
+      {
+        path: '/sale',
+        element: <Sale />
       }
     ]
   },
