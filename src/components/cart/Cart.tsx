@@ -23,7 +23,7 @@ interface CartProps {
 
 export default function Cart({ onToggleSidepaneDrawer }: CartProps) {
   const toast = useToast()
-  const { cart } = useCart()
+  const { cart, clearCart } = useCart()
   const { consultCustomer, customer, removeCustomer } = useCustomer()
   const navigate = useNavigate()
 
@@ -65,6 +65,17 @@ export default function Cart({ onToggleSidepaneDrawer }: CartProps) {
     toast({
       title: 'Removido!',
       description: 'Cliente removido com sucesso.',
+      status: 'success',
+      duration: 2000
+    })
+  }
+
+  function handleClearCart() {
+    clearCart()
+
+    toast({
+      title: 'Carrinho limpo!',
+      description: 'Carrinho limpo com sucesso.',
       status: 'success',
       duration: 2000
     })
@@ -125,8 +136,10 @@ export default function Cart({ onToggleSidepaneDrawer }: CartProps) {
               quantity={item.quantity}
             />
           ))}
+          <Button variant='outline' colorScheme='red' onClick={() => handleClearCart()}>Limpar</Button>
         </VStack>
       )}
+
     </VStack>
   )
 }
