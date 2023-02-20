@@ -6,6 +6,7 @@ interface CartContext {
   addItemProduct(product: product): void
   removeItemProduct(product: product): void
   removeProduct(product: product): void
+  clearCart(): void
 }
 
 export const CartContext = createContext<CartContext>({} as CartContext)
@@ -52,12 +53,17 @@ export default function CartProvider({ children }: { children: ReactNode }) {
     setCart([...cart.filter((item) => item.product.id !== product.id)])
   }
 
+  function clearCart() {
+    setCart([])
+  }
+
   const value = useMemo(
     () => ({
       cart,
       addItemProduct,
       removeItemProduct,
-      removeProduct
+      removeProduct,
+      clearCart
     }),
     [cart]
   )
