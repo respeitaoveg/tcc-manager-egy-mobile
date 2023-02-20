@@ -1,9 +1,8 @@
-import { MouseEventHandler, ReactNode } from 'react'
+import { ReactNode } from 'react'
 import {
   Box,
   Flex,
   HStack,
-  Link,
   IconButton,
   Button,
   useColorModeValue,
@@ -15,8 +14,6 @@ import MyDrawer from '../Drawer'
 import Cart from '../cart/Cart'
 import ResumeCartFooter from '../cart/ResumeCartFooter'
 import { useNavigate } from 'react-router-dom'
-// import Cart from '../products/ordered/Cart'
-// import ResumeFooter from '../products/ordered/ResumeFooter'
 
 const Links = [
   {

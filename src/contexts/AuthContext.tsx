@@ -8,7 +8,7 @@ interface AuthContext {
   logout(): void
 }
 
-export const AuthContext = createContext<AuthContext | undefined>(undefined)
+export const AuthContext = createContext<AuthContext>({} as AuthContext)
 
 export default function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<user>()

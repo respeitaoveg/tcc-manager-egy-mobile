@@ -1,27 +1,19 @@
 import {
   Flex,
-  Box,
-  FormControl,
-  FormLabel,
-  Input,
-  Checkbox,
-  Stack,
-  Link,
-  Button,
   useColorModeValue
 } from '@chakra-ui/react'
-import { ChangeEvent, useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import LoginForm from '../components/forms/LoginForm'
 import { useAuth } from '../contexts/AuthContext'
 
 export default function Login() {
-  const auth = useAuth()
+  const { user } = useAuth()
   const navigate = useNavigate()
 
   useEffect(() => {
-    if (auth?.user) navigate('/')
-  }, [auth?.user])
+    if (user) navigate('/')
+  }, [user])
 
   return (
     <Flex
