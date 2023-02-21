@@ -7,7 +7,7 @@ export interface api {
 export interface user {
   nome: string
   email: string
-  roleGNFE: string
+  roleGNFE: 'ADMIN' | 'FUNCIONARIO' | 'FORNECEDOR' | 'CLIENTE'
   dataExpiracaoSenha: string
   token: string
 }
@@ -16,36 +16,37 @@ export interface consultUser {
   cpfCnpj: string
   id: number
   nome: string
-  roleGNFE: string
-}
-
-export interface completeUser {
-  bairro: string
-  cep: string
-  cidade: string
-  codigoIBGE: string
-  cpfCnpj: string
-  email: string
-  endereco: string
-  estado: string
-  id: string
-  login: string
-  nome: string
-  numero: number
-  roleGD: string
-  telefone: string
+  roleGNFE: 'ADMIN' | 'FUNCIONARIO' | 'FORNECEDOR' | 'CLIENTE'
 }
 
 export interface product {
-  id: string
   cod: string
   descricao: string
-  estoqueAtual: string
+  estoqueAtual: number
+  id: number
   imagemBase64: string
   nome: string
   nomeImagem: string
-  unidadeMedida: string
+  unidadeMedida: 'CAIXA' | 'CX' | 'LT' | 'PC' | 'PCT' | 'UN'
   valorUnidade: string
+}
+
+export interface invoice {
+  chaveAcesso: string
+  dataCancelamento: string
+  dataCriacao: string
+  dataEnvio: string
+  id: number
+  protocolo: string
+  protocoloCancelamento: string
+  statusNotaFiscal:
+    | 'CONCLUIDO'
+    | 'PENDENTE'
+    | 'PROCESSANDO'
+    | 'ERRO'
+    | 'CANCELADO'
+  xml: string
+  xmlCancelamento: string
 }
 
 export interface cart {
@@ -145,46 +146,23 @@ export interface requestRegisterBudget {
 }
 
 export interface responseRegisterBudget {
-  autor: {
-    cpfCnpj: string
-    id: number
-    nome: string
-    roleGNFE: 'ADMIN'
-  }
+  autor: consultUser
   bandeira: 'MASTERCARD' | 'VISA' | 'ELO' | 'AMERICAN_EXPRESS' | 'HIPERCARD'
-  cliente: {
-    cpfCnpj: string
-    id: number
-    nome: string
-    roleGNFE: 'ADMIN'
-  }
-  formadePagamento: 'DINHEIRO' | 'CHEQUE' | 'CARTAO_CREDITO' | 'CARTAO_DEBITO' | 'CREDITO_LOJA' | 'VALE_ALIMENTACAO' | 'VALE_REFEICAO' | 'VALE_PRESENTE' | 'VALE_COMBUSTIVEL' | 'OUTROS'
+  cliente: consultUser
+  formadePagamento:
+    | 'DINHEIRO'
+    | 'CHEQUE'
+    | 'CARTAO_CREDITO'
+    | 'CARTAO_DEBITO'
+    | 'CREDITO_LOJA'
+    | 'VALE_ALIMENTACAO'
+    | 'VALE_REFEICAO'
+    | 'VALE_PRESENTE'
+    | 'VALE_COMBUSTIVEL'
+    | 'OUTROS'
   id: number
-  listaProdutoResponse: [
-    {
-      cod: string
-      descricao: string
-      estoqueAtual: number
-      id: number
-      imagemBase64: string
-      nome: string
-      nomeImagem: string
-      unidadeMedida: 'CAIXA'
-      valorUnidade: string
-    }
-  ]
-  notaFiscal: {
-    chaveAcesso: string
-    dataCancelamento: string
-    dataCriacao: string
-    dataEnvio: string
-    id: number
-    protocolo: string
-    protocoloCancelamento: string
-    statusNotaFiscal: 'CONCLUIDO'
-    xml: string
-    xmlCancelamento: string
-  }
+  listaProdutoResponse: Array<product>
+  notaFiscal: invoice
 }
 
 export interface requestInvoice {
@@ -253,4 +231,12 @@ export interface responseBudgetPdf {
   base64Xml: string
   base64XmlCancelamento: string
   nomeArquivo: string
+}
+
+export interface requestConsultBudget {
+  budgetId: number
+}
+
+export interface responseConsultBudget extends Omit<responseRegisterBudget, 'id'> {
+  id: number
 }
