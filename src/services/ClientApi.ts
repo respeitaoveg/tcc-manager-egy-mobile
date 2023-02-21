@@ -4,12 +4,14 @@ import {
   consultUser,
   product,
   requestBudgetPdf,
+  requestConsultBudget,
   requestConsultUser,
   requestCreateCustomer,
   requestInvoice,
   requestProducts,
   requestRegisterBudget,
   responseBudgetPdf,
+  responseConsultBudget,
   responseCreateCustomer,
   responseInvoice,
   responseRegisterBudget,
@@ -91,6 +93,16 @@ export class ClientApi implements api {
   ): Promise<responseRegisterBudget | undefined> {
     try {
       const response = await this._http.post('/orcamento/v1/cadastrar', params, this.getAxiosConfig())
+
+      return response.data
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  async consultBudget({ budgetId }: requestConsultBudget): Promise<responseConsultBudget | undefined> {
+    try {
+      const response = await this._http.post(`/orcamento/v1/buscar/${budgetId}`, this.getAxiosConfig())
 
       return response.data
     } catch (error) {
