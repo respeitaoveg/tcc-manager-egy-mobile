@@ -10,10 +10,13 @@ Este repositõrio foi criado para ser parte móvel do sistema, focado principalm
 Tudo foi desenvolvido no Linux Fedora 36. A IDE foi o famoso VScode. Por fim, o Firefox foi o browser principal para rodar o sistema.
 
 #### Tecnologias
+- Vite
 - Reactjs
 - Typescript
 - Chakra UI
-- React forms
+- React hook form
+- Yup
+- Axios
 
 #### Instalação
 1. Clonar este repositório
