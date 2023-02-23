@@ -5,7 +5,9 @@ import {
   VStack,
   Text,
   Alert,
-  AlertIcon
+  AlertIcon,
+  Skeleton,
+  Stack
 } from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
 import { useLocation, useParams } from 'react-router-dom'
@@ -76,50 +78,59 @@ export default function Sale() {
             Baixar orçamento
           </Text>
         </HStack>
-        <VStack spacing={5} p={4} py={8}>
-          {invoice?.statusNotaFiscal === 'CANCELADO' && (
-            <Alert status='success'>
-              <AlertIcon />
-              Nota fiscal cancelada!
-            </Alert>
-          )}
-          {invoice?.statusNotaFiscal === 'CONCLUIDO' && (
-            <Alert status='success'>
-              <AlertIcon />
-              Nota fiscal está concluída!
-            </Alert>
-          )}
-          {invoice?.statusNotaFiscal === 'ERRO' && (
-            <Alert status='error'>
-              <AlertIcon />
-              Erro ao gerar a nota fiscal!
-            </Alert>
-          )}
-          {invoice?.statusNotaFiscal === 'PENDENTE' && (
-            <Alert status='info'>
-              <AlertIcon />
-              Nota fiscal está pendente!
-            </Alert>
-          )}
-          {invoice?.statusNotaFiscal === 'PROCESSANDO' && (
-            <>
-              <SaleProgress done={hasInvoice} />
+        {hasInvoice ? (
+          <VStack spacing={5} p={4} py={8}>
+            {invoice?.statusNotaFiscal === 'CANCELADO' && (
+              <Alert status='success'>
+                <AlertIcon />
+                Nota fiscal cancelada!
+              </Alert>
+            )}
+            {invoice?.statusNotaFiscal === 'CONCLUIDO' && (
+              <Alert status='success'>
+                <AlertIcon />
+                Nota fiscal está concluída!
+              </Alert>
+            )}
+            {invoice?.statusNotaFiscal === 'ERRO' && (
+              <Alert status='error'>
+                <AlertIcon />
+                Erro ao gerar a nota fiscal!
+              </Alert>
+            )}
+            {invoice?.statusNotaFiscal === 'PENDENTE' && (
               <Alert status='info'>
                 <AlertIcon />
-                Nota fiscal sendo processada! Aguarde um pouco para baixar o orçamento e a chave de acesso!
+                Nota fiscal está pendente!
               </Alert>
-            </>
-          )}
-          <Button
-            as="a"
-            id="download"
-            href={`data:application/pdf;base64,${budgetPdf?.base64}`}
-            colorScheme="teal"
-            download={budgetPdf?.nomeArquivo}
-          >
-            Baixar
-          </Button>
-        </VStack>
+            )}
+            {invoice?.statusNotaFiscal === 'PROCESSANDO' && (
+              <>
+                <SaleProgress done={hasInvoice} />
+                <Alert status='info'>
+                  <AlertIcon />
+                  Nota fiscal sendo processada! Aguarde um pouco para baixar o orçamento e a chave de acesso!
+                </Alert>
+              </>
+            )}
+            <Button
+              as="a"
+              id="download"
+              href={`data:application/pdf;base64,${budgetPdf?.base64}`}
+              colorScheme="teal"
+              download={budgetPdf?.nomeArquivo}
+            >
+              Baixar
+            </Button>
+          </VStack>
+        ) : (
+          <VStack w={'full'} p={4} py={8}>
+            <Skeleton w='full' height='20px' />
+            <Skeleton w='full' height='20px' />
+            <Skeleton w='full' height='20px' />
+          </VStack>
+        )}
+
       </VStack>
     </VStack>
   )
