@@ -1,4 +1,4 @@
-import { CircularProgress, CircularProgressLabel, HStack, Progress, Text } from "@chakra-ui/react"
+import { CircularProgress, CircularProgressLabel } from "@chakra-ui/react"
 
 interface SaleProgressProps {
   done: boolean
