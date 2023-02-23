@@ -7,7 +7,7 @@
 Este repositõrio foi criado para ser parte móvel do sistema, focado principalmente na venda de produtos e geração de orçamentos e notas fiscais.
 
 #### Ambiente
-Tudo foi desenvolvido no Linux Fedora 36. A IDE foi o famoso VScode. Por fim, o Firefox foi o browser principal para rodar o sistema.
+Tudo foi desenvolvido no Linux Fedora 36. A IDE foi VScode. Por fim, o Firefox foi o browser para rodar o sistema.
 
 #### Tecnologias
 - Vite
