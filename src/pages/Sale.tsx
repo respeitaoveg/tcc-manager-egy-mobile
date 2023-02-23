@@ -6,8 +6,7 @@ import {
   Text,
   Alert,
   AlertIcon,
-  Skeleton,
-  Stack
+  Skeleton
 } from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
 import { useLocation, useParams } from 'react-router-dom'
