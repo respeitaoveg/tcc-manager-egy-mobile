@@ -54,27 +54,30 @@ export default function ResumeCartForm() {
   async function onSubmit(values: requestRegisterBudget) {
     const response = await api.registerBudget(values)
 
-    if (response) toast({
-      title: 'Orçamento gerado!',
-      description: 'Orçamento gerado com sucesso.',
-      status: 'success',
-      duration: 2000
-    })
-
-    if (hasInvoice && response?.id) {
-      const responseInvoice = await api.invoice({ budgetId: response.id.toString() })
-
-      if (responseInvoice) toast({
-        title: 'Nota gerada!',
-        description: 'Nota gerada com sucesso.',
+    if (response) {
+      toast({
+        title: 'Orçamento gerado!',
+        description: 'Orçamento gerado com sucesso.',
         status: 'success',
-        duration: 5000
+        duration: 2000
       })
+
+      if (hasInvoice && response.id) {
+        const responseInvoice = await api.invoice({ budgetId: response.id.toString() })
+
+        if (responseInvoice) toast({
+          title: 'Nota gerada!',
+          description: 'Nota gerada com sucesso.',
+          status: 'success',
+          duration: 5000
+        })
+
+      }
+
+      navigate(`/sale/${response.id}`)
     }
 
     clearCart()
-
-    navigate('/sale')
   }
 
   function handleOnChangeInvoice() {
