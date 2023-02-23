@@ -19,6 +19,7 @@ Tudo foi desenvolvido no Linux Fedora 36. A IDE foi o famoso VScode. Por fim, o 
 1. Clonar este repositório
     1. git clone git@github.com:respeitaoveg/tcc-manager-egy-mobile.git
 2. Entrar no diretório "tcc-manager-egy-mobile"
+    1. cd tcc-manager-egy-mobile
 3. Instalar as dependências com o comando "yarn"
 4. Criar o arquivo oculto ".env.local" na raíz e adicionar a variável "VITE_BASE_URL" recebendo o valor do caminho para a API
     1. Por exemplo: echo VITE_BASE_URL=https://192.168.0.10/api >> .env.local
