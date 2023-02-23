@@ -102,7 +102,7 @@ export class ClientApi implements api {
 
   async consultBudget({ budgetId }: requestConsultBudget): Promise<responseConsultBudget | undefined> {
     try {
-      const response = await this._http.post(`/orcamento/v1/buscar/${budgetId}`, this.getAxiosConfig())
+      const response = await this._http(`/orcamento/v1/buscar/${budgetId}`, this.getAxiosConfig())
 
       return response.data
     } catch (error) {
