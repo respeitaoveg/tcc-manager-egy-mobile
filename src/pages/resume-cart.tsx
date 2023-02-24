@@ -13,6 +13,8 @@ import {
 import ResumeCartForm from '../components/forms/ResumeCartForm'
 import { useCart } from '../contexts/CartContext'
 import { useCustomer } from '../contexts/CustomerContext'
+import parseCurrencyString from '../utils/parseCurrencyString'
+import parseLocaleCurrency from '../utils/parseLocaleCurrency'
 
 export default function ResumeCart() {
   const { customer } = useCustomer()
@@ -22,7 +24,7 @@ export default function ResumeCart() {
     let total = 0
 
     for (const value of cart) {
-      total += parseFloat(value.product.valorUnidade) * value.quantity
+      total += (value.quantity * parseCurrencyString(value.product.valorUnidade))
     }
 
     return total
@@ -92,7 +94,7 @@ export default function ResumeCart() {
             <Tfoot>
               <Tr>
                 <Th>Valor total</Th>
-                <Th isNumeric>{totalBudget()}</Th>
+                <Th isNumeric>{parseLocaleCurrency(totalBudget())}</Th>
               </Tr>
             </Tfoot>
           </Table>
