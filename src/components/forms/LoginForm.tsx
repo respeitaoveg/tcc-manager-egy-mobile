@@ -1,7 +1,7 @@
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { useColorModeValue, Stack, Checkbox, Button, Box, Link } from '@chakra-ui/react'
+import { useColorModeValue, Stack, Checkbox, Button, Box, Text } from '@chakra-ui/react'
 import MyInput from './parts/MyInput'
 import { useAuth } from '../../contexts/AuthContext'
 
@@ -36,6 +36,7 @@ export default function LoginForm() {
           p={8}
         >
           <Stack spacing={4}>
+            <Text align='center' fontSize='3xl'>EGY</Text>
             <MyInput
               id='login'
               type='text'
@@ -58,8 +59,8 @@ export default function LoginForm() {
                 align={'start'}
                 justify={'space-between'}
               >
-                <Checkbox>Lembrar-me</Checkbox>
-                <Link color={'blue.400'}>Esqueceu a senha?</Link>
+                {/* <Checkbox>Lembrar-me</Checkbox>
+                <Link color={'blue.400'}>Esqueceu a senha?</Link> */}
               </Stack>
               <Button onClick={handleSubmit(onSubmit)} colorScheme="teal">
                 Entrar
