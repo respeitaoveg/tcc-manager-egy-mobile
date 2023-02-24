@@ -88,19 +88,19 @@ export default function Sale() {
             {invoice?.statusNotaFiscal === 'CONCLUIDO' && (
               <Alert status='success'>
                 <AlertIcon />
-                Nota fiscal está concluída!
+                Cupom fiscal disponível!
               </Alert>
             )}
             {invoice?.statusNotaFiscal === 'ERRO' && (
               <Alert status='error'>
                 <AlertIcon />
-                Erro ao gerar a nota fiscal!
+                Erro ao gerar o cupom fiscal!
               </Alert>
             )}
             {invoice?.statusNotaFiscal === 'PENDENTE' && (
               <Alert status='info'>
                 <AlertIcon />
-                Nota fiscal está pendente!
+                Cupom fiscal está pendente!
               </Alert>
             )}
             {invoice?.statusNotaFiscal === 'PROCESSANDO' && (
@@ -108,7 +108,7 @@ export default function Sale() {
                 <SaleProgress done={hasInvoice} />
                 <Alert status='info'>
                   <AlertIcon />
-                  Nota fiscal sendo processada! Aguarde um pouco para baixar o orçamento e a chave de acesso!
+                  Nota fiscal sendo processada! Aguarde um pouco para baixar o cumpom fiscal!
                 </Alert>
               </>
             )}
