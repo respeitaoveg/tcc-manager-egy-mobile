@@ -4,18 +4,15 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { useColorModeValue, Stack, Button, Box, Text } from '@chakra-ui/react'
 import MyInput from './parts/MyInput'
 import { useAuth } from '../../contexts/AuthContext'
-import { cpfRegex } from '../../utils/validateCpfCnpj'
+import { cpfRegex, checkCpfCnpj, msgInvalidCpfCnpj } from '../../utils/validateCpfCnpj'
 
 const schema = yup.object().shape({
   login: yup.string().required('Campo requerido').when((builder, schema) => {
     const aux = builder[0].length
-    const msg = 'CPF/CNPJ inválido'
 
-    if (aux > 0) {
-      if (aux < 11) return schema.matches(cpfRegex, msg)
-      if (aux > 11 && aux < 14) return schema.matches(cpfRegex, msg)
-      if (aux > 14) return schema.matches(cpfRegex, msg)
-    }
+    const isValid = checkCpfCnpj(aux)
+
+    if (!isValid) return schema.matches(cpfRegex, msgInvalidCpfCnpj)
 
     return schema
   }),
