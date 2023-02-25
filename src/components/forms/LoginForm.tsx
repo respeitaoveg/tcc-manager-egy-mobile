@@ -1,12 +1,24 @@
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { useColorModeValue, Stack, Checkbox, Button, Box, Text } from '@chakra-ui/react'
+import { useColorModeValue, Stack, Button, Box, Text } from '@chakra-ui/react'
 import MyInput from './parts/MyInput'
 import { useAuth } from '../../contexts/AuthContext'
+import { cpfRegex } from '../../utils/validateCpfCnpj'
 
 const schema = yup.object().shape({
-  login: yup.string().required('Campo requerido'),
+  login: yup.string().required('Campo requerido').when((builder, schema) => {
+    const aux = builder[0].length
+    const msg = 'CPF/CNPJ inválido'
+
+    if (aux > 0) {
+      if (aux < 11) return schema.matches(cpfRegex, msg)
+      if (aux > 11 && aux < 14) return schema.matches(cpfRegex, msg)
+      if (aux > 14) return schema.matches(cpfRegex, msg)
+    }
+
+    return schema
+  }),
   password: yup.string().required('Campo requerido')
 })
 
@@ -59,8 +71,6 @@ export default function LoginForm() {
                 align={'start'}
                 justify={'space-between'}
               >
-                {/* <Checkbox>Lembrar-me</Checkbox>
-                <Link color={'blue.400'}>Esqueceu a senha?</Link> */}
               </Stack>
               <Button onClick={handleSubmit(onSubmit)} colorScheme="teal">
                 Entrar
