@@ -1,6 +1,5 @@
 import { Button } from "@chakra-ui/button"
-import { Input } from "@chakra-ui/input"
-import { Box, HStack, Text, VStack } from "@chakra-ui/layout"
+import { Box, Text, VStack } from "@chakra-ui/layout"
 import { useColorModeValue } from '@chakra-ui/color-mode'
 import MyInput from "../../components/forms/parts/MyInput"
 import * as yup from 'yup'
@@ -10,11 +9,20 @@ import { useEffect } from "react"
 import { useToast } from "@chakra-ui/react"
 import { useCustomer } from "../../contexts/CustomerContext"
 import { useNavigate } from "react-router-dom"
+import { checkCpfCnpj, cpfRegex, msgInvalidCpfCnpj } from "../../utils/validateCpfCnpj"
 
 const schema = yup.object().shape({
   nome: yup.string().required('Campo requerido'),
-  cpfCnpj: yup.string().required('Campo requerido'),
-  email: yup.string().required('Campo requerido'),
+  cpfCnpj: yup.string().required('Campo requerido').when((builder, schema) => {
+    const aux = builder[0].length
+
+    const isValid = checkCpfCnpj(aux)
+
+    if (!isValid) return schema.matches(cpfRegex, msgInvalidCpfCnpj)
+
+    return schema
+  }),
+  email: yup.string().email('Email inválido').required('Campo requerido'),
   codigoIBGE: yup.string(),
   telefone: yup.string().required('Campo requerido'),
   cep: yup.string().required('Campo requerido'),
@@ -83,14 +91,14 @@ export default function CreateCustomerForm() {
 
     if(data.erro) return toast({
       title: 'CEP não encontrado!',
-      description: 'O CEP não foi encontrado nos registros.',
+      description: 'CEP não encontrado.',
       status: 'error',
       duration: 2000
     })
 
     toast({
       title: 'CEP encontrado!',
-      description: 'O CEP foi encontrado com sucesso.',
+      description: 'CEP encontrado com sucesso.',
       status: 'success',
       duration: 2000
     })
