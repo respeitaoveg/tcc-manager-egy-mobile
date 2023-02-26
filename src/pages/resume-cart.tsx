@@ -15,6 +15,7 @@ import { useCart } from '../contexts/CartContext'
 import { useCustomer } from '../contexts/CustomerContext'
 import parseCurrencyString from '../utils/parseCurrencyString'
 import parseLocaleCurrency from '../utils/parseLocaleCurrency'
+import parseMainName from '../utils/parseMainName'
 
 export default function ResumeCart() {
   const { customer } = useCustomer()
@@ -82,11 +83,11 @@ export default function ResumeCart() {
             <Tbody>
               {cart.map((value, index) => (
                 <Tr key={index}>
-                  <Td>{value.product.nome}</Td>
+                  <Td>{parseMainName(value.product.nome)}</Td>
                   <Td isNumeric>{value.quantity}</Td>
-                  <Td isNumeric>{parseFloat(value.product.valorUnidade)}</Td>
+                  <Td isNumeric>{parseLocaleCurrency(parseCurrencyString(value.product.valorUnidade))}</Td>
                   <Td isNumeric>
-                    {parseFloat(value.product.valorUnidade) * value.quantity}
+                    {parseLocaleCurrency((value.quantity * parseCurrencyString(value.product.valorUnidade)))}
                   </Td>
                 </Tr>
               ))}

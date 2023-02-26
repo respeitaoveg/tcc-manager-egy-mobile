@@ -16,6 +16,7 @@ import parseCurrencyString from '../../utils/parseCurrencyString'
 import parseLocaleCurrency from '../../utils/parseLocaleCurrency'
 import checkImage from '../../utils/checkImage'
 import checkDescription from '../../utils/checkDescription'
+import parseMainName from '../../utils/parseMainName'
 
 interface ProductCartProps {
   product: product
@@ -61,7 +62,7 @@ export default function ProductCart({ product, quantity }: ProductCartProps) {
           lineHeight='normal'
           overflow='auto'
         >
-          {nome}
+          {parseMainName(nome)}
         </Text>
         <Tag
           textAlign="end"
