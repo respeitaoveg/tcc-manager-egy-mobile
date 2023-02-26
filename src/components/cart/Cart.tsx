@@ -16,6 +16,7 @@ import { useCart } from '../../contexts/CartContext'
 import { cart } from '../../types/api'
 import { useCustomer } from '../../contexts/CustomerContext'
 import { useNavigate } from 'react-router-dom'
+import { cpfRegex, msgInvalidCpf } from '../../utils/validateCpfCnpj'
 
 interface CartProps {
   onToggleSidepaneDrawer(): void
@@ -34,23 +35,15 @@ export default function Cart({ onToggleSidepaneDrawer }: CartProps) {
   }
 
   async function handleSearchCustomer() {
-    const customer = await consultCustomer(customerInput)
-
-    if (customer) {
-      toast({
-        title: 'Encontrado!',
-        description: 'Cliente encontrado com sucesso.',
-        status: 'success',
-        duration: 2000
-      })
-    } else {
-      toast({
-        title: 'Não encontrado!',
-        description: 'Cliente não encontrado.',
+    if (!cpfRegex.test(customerInput)) {
+      return toast({
+        title: msgInvalidCpf,
         status: 'error',
         duration: 2000
       })
     }
+
+    consultCustomer(customerInput)
   }
 
   function createCustomer() {
@@ -61,13 +54,6 @@ export default function Cart({ onToggleSidepaneDrawer }: CartProps) {
 
   function handleRemoveCustomer() {
     removeCustomer()
-
-    toast({
-      title: 'Removido!',
-      description: 'Cliente removido com sucesso.',
-      status: 'success',
-      duration: 2000
-    })
   }
 
   function handleClearCart() {

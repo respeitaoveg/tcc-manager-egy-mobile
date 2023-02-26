@@ -1,10 +1,13 @@
+import { createStandaloneToast } from '@chakra-ui/react'
 import { createContext, ReactNode, useContext, useMemo, useState } from 'react'
 import { ClientApi } from '../services/ClientApi'
 import { consultUser, requestConsultUser, requestCreateCustomer, responseCreateCustomer } from '../types/api'
 
+const { toast } = createStandaloneToast()
+
 interface CustomerContext {
   customer: consultUser | undefined
-  consultCustomer(cpf: string): Promise<consultUser | void>
+  consultCustomer(cpf: string): void
   createCustomer(params: requestConsultUser): Promise<responseCreateCustomer | void>
   removeCustomer(): void
 }
@@ -22,7 +25,7 @@ export default function CustomerProvider({
 
   const api = new ClientApi()
 
-  async function consultCustomer(cpf: string): Promise<consultUser | undefined> {
+  async function consultCustomer(cpf: string) {
     const params: requestConsultUser = { login: cpf }
 
     const response = await api.consultUser(params)
@@ -30,9 +33,21 @@ export default function CustomerProvider({
     if (!customer && response) {
       setCustomer(response)
 
-      return response
+      toast({
+        title: 'Encontrado!',
+        description: 'Cliente encontrado com sucesso.',
+        status: 'success',
+        duration: 2000
+      })
     } else {
       setCustomer(undefined)
+
+      toast({
+        title: 'Não encontrado!',
+        description: 'Cliente não encontrado.',
+        status: 'error',
+        duration: 2000
+      })
     }
   }
 
@@ -53,6 +68,13 @@ export default function CustomerProvider({
 
   function removeCustomer() {
     setCustomer(undefined)
+
+    toast({
+      title: 'Removido!',
+      description: 'Cliente removido com sucesso.',
+      status: 'success',
+      duration: 2000
+    })
   }
 
   const value = useMemo(
