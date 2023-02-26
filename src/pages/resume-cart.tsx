@@ -16,6 +16,7 @@ import { useCustomer } from '../contexts/CustomerContext'
 import parseCurrencyString from '../utils/parseCurrencyString'
 import parseLocaleCurrency from '../utils/parseLocaleCurrency'
 import parseMainName from '../utils/parseMainName'
+import { parseMask } from '../utils/parseMask'
 
 export default function ResumeCart() {
   const { customer } = useCustomer()
@@ -49,16 +50,17 @@ export default function ResumeCart() {
         </HStack>
         <HStack width={'100%'}>
           <Text fontWeight="semibold">CPF/CNPJ:</Text>
-          <Text>{customer?.cpfCnpj}</Text>
+          <Text>{customer?.cpfCnpj.length === 11 &&  parseMask(customer?.cpfCnpj, 'AAA.AAA.AAA-AA')}</Text>
+          <Text>{customer?.cpfCnpj.length === 14 &&  parseMask(customer?.cpfCnpj, 'AA.AAA.AAA/AAAA-AA')}</Text>
         </HStack>
-        <HStack width={'100%'}>
+        {/* <HStack width={'100%'}>
           <Text fontWeight="semibold">Email:</Text>
           <Text>test@test.com</Text>
         </HStack>
         <HStack width={'100%'}>
           <Text fontWeight="semibold">Telefone:</Text>
           <Text>(41) 9 9999-9999</Text>
-        </HStack>
+        </HStack> */}
       </VStack>
 
       <VStack
