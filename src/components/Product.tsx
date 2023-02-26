@@ -5,8 +5,7 @@ import {
   Text,
   HStack,
   IconButton,
-  VStack,
-  useToast
+  VStack
 } from '@chakra-ui/react'
 import { useCart } from '../contexts/CartContext'
 import { product } from '../types/api'
@@ -16,7 +15,6 @@ import checkImage from '../utils/checkImage'
 import checkDescription from '../utils/checkDescription'
 
 function Product(product: product) {
-  const toast = useToast()
   const { removeItemProduct, addItemProduct} = useCart()
 
   const {
