@@ -1,3 +1,4 @@
+import { createStandaloneToast, useToast } from '@chakra-ui/react'
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios'
 import {
   api,
@@ -17,6 +18,8 @@ import {
   responseRegisterBudget,
   user
 } from '../types/api'
+
+const { toast } = createStandaloneToast()
 
 export class ClientApi implements api {
   private _http: AxiosInstance
@@ -54,7 +57,12 @@ export class ClientApi implements api {
 
       return response.data
     } catch (error) {
-      console.error(error)
+      toast({
+        title: 'Erro!',
+        description: error?.response?.data?.message || 'Login e senha inválidos',
+        status: 'error',
+        duration: 2000
+      })
     }
   }
 
@@ -66,9 +74,25 @@ export class ClientApi implements api {
     try {
       const response = await this._http.post('/produto/v1/buscar', params, this.getAxiosConfig())
 
-      return response.data.produtos
+      const data = response.data.produtos
+
+      if (data && data.length > 0) return data
+
+
+      toast({
+        title: 'Erro!',
+        description: 'Produto não encontrado.',
+        status: 'error',
+        duration: 2000
+      })
+
     } catch (error) {
-      console.error(error)
+      toast({
+        title: 'Erro!',
+        description: 'Erro ao requisitar produto.',
+        status: 'error',
+        duration: 2000
+      })
     }
   }
 
