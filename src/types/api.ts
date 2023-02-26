@@ -204,7 +204,7 @@ export interface responseCreateCustomer {
   nome: string
   email: string
   login: string
-  roleGD: string
+  roleGD: 'ADMIN' | 'FUNCIONARIO' | 'FORNECEDOR' | 'CLIENTE'
   telefone: string
   cep: string
   endereco: string
