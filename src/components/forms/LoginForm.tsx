@@ -25,14 +25,14 @@ interface LoginFormInputs {
 }
 
 export default function LoginForm() {
-  const auth = useAuth()
+  const { login } = useAuth()
   const { register, handleSubmit, formState: { errors }} = useForm<LoginFormInputs>({
     mode: 'onBlur',
     resolver: yupResolver(schema)
   })
 
   function onSubmit(values: LoginFormInputs) {
-    auth?.login(values.login, values.password)
+    login(values.login, values.password)
   }
 
   return (
