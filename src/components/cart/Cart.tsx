@@ -16,7 +16,7 @@ import { useCart } from '../../contexts/CartContext'
 import { cart } from '../../types/api'
 import { useCustomer } from '../../contexts/CustomerContext'
 import { useNavigate } from 'react-router-dom'
-import { cpfRegex, msgInvalidCpf } from '../../utils/validateCpfCnpj'
+import { cpfCnpjRegex, msgInvalidCpfCnpj } from '../../utils/validateCpfCnpj'
 
 interface CartProps {
   onToggleSidepaneDrawer(): void
@@ -35,9 +35,9 @@ export default function Cart({ onToggleSidepaneDrawer }: CartProps) {
   }
 
   async function handleSearchCustomer() {
-    if (!cpfRegex.test(customerInput)) {
+    if (!cpfCnpjRegex.test(customerInput)) {
       return toast({
-        title: msgInvalidCpf,
+        title: msgInvalidCpfCnpj,
         status: 'error',
         duration: 2000
       })
