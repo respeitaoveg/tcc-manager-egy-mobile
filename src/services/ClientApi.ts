@@ -106,9 +106,23 @@ export class ClientApi implements api {
         this.getAxiosConfig()
       )
 
-      return response.data?.usuariosAtivos[0]
+      const user = response.data?.usuariosAtivos[0]
+
+      if (user) return user
+
+      toast({
+        title: 'Erro!',
+        description: 'Cliente não encontrado.',
+        status: 'error',
+        duration: 2000
+      })
     } catch (error) {
-      console.error(error)
+      toast({
+        title: 'Erro!',
+        description: 'Erro ao requisitar cliente.',
+        status: 'error',
+        duration: 2000
+      })
     }
   }
 
@@ -150,7 +164,12 @@ export class ClientApi implements api {
 
       return response.data
     } catch (error) {
-      console.error(error)
+      toast({
+        title: 'Erro!',
+        description: 'Erro ao cadastrar cliente.',
+        status: 'error',
+        duration: 2000
+      })
     }
   }
 
