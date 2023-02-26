@@ -73,12 +73,7 @@ export default function Cart({ onToggleSidepaneDrawer }: CartProps) {
   function handleClearCart() {
     clearCart()
 
-    toast({
-      title: 'Carrinho limpo!',
-      description: 'Carrinho limpo com sucesso.',
-      status: 'success',
-      duration: 2000
-    })
+    onToggleSidepaneDrawer()
   }
 
   return (

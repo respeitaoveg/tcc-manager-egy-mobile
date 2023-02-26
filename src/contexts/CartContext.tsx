@@ -149,6 +149,13 @@ export default function CartProvider({ children }: { children: ReactNode }) {
 
   function clearCart() {
     setCart([])
+
+    toast({
+      title: 'Carrinho limpo!',
+      description: 'Carrinho limpo com sucesso.',
+      status: 'success',
+      duration: 2000
+    })
   }
 
   const value = useMemo(
