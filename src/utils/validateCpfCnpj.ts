@@ -1,6 +1,7 @@
 export const cpfFormat = '999.999.999-99'
 export const cpfFormatHash = '###.###.###-##'
 export const cpfRegex = /^\d{3}\.?\d{3}\.?\d{3}-?\d{2}$/
+export const msgInvalidCpf = 'CPF inválido'
 
 export const cnpjFormat = '99.999.999/9999-99'
 export const cnpjFormatHash = '##.###.###/####-##'
