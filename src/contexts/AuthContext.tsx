@@ -4,7 +4,7 @@ import { user } from '../types/api'
 
 interface AuthContext {
   user: user | undefined
-  login(login: string, password: string): void
+  login(login: string, password: string): Promise<undefined | {error: string}>
   logout(): void
 }
 
@@ -18,7 +18,11 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
   async function login(login: string, password: string) {
     const user = await api.login(login, password)
 
-    if (user) setUser(user)
+    if (user?.token) {
+      localStorage.setItem('auth', JSON.stringify(user))
+
+      setUser(user)
+    }
   }
 
   function logout() {
