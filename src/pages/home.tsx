@@ -1,27 +1,14 @@
 import { VStack } from '@chakra-ui/react'
-import { useEffect, useState } from 'react'
+import { useContext, useEffect } from 'react'
 import ListProducts from '../components/ListProducts'
 import SearchProduct from '../components/SearchProduct'
-import { ClientApi } from '../services/ClientApi'
-import { product } from '../types/api'
+import { CartContext } from '../contexts/CartContext'
 
 export default function Home() {
-  const api = new ClientApi()
-  const [products, setProducts] = useState<product[] | undefined>()
-
+  const { products, getProducts } = useContext(CartContext)
   useEffect(() => {
     getProducts('trena')
   }, [])
-
-  async function getProducts(search: string) {
-    try {
-      const data = await api.products({ nome: search })
-
-      if (data) setProducts(data)
-    } catch (error) {
-      console.error(error)
-    }
-  }
 
   return (
     <VStack alignItems="stretch" spacing={4} maxWidth="100%" height="100vh">
