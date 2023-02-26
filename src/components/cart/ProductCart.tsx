@@ -36,22 +36,10 @@ export default function ProductCart({ product, quantity }: ProductCartProps) {
 
   function _addItemProduct() {
     addItemProduct(product)
-
-    toast({
-      description: `Item ${nome} adicionado(a) com sucesso!`,
-      status: 'success',
-      duration: 2000
-    })
   }
 
   function _removeItemProduct() {
     removeItemProduct(product)
-
-    toast({
-      description: `Item ${nome} removido(a) com sucesso!`,
-      status: 'success',
-      duration: 2000
-    })
   }
 
   return (
