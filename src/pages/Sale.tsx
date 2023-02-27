@@ -5,45 +5,57 @@ import {
   VStack,
   Text,
   Alert,
-  AlertIcon,
-  Skeleton
+  AlertIcon
 } from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
-import { useLocation, useParams } from 'react-router-dom'
-import SaleProgress from '../components/SaleProgress'
+import { useParams } from 'react-router-dom'
 import { ClientApi } from '../services/ClientApi'
 import { invoice, responseBudgetPdf } from '../types/api'
 
 export default function Sale() {
-  const location = useLocation()
   const { id: paramBudgetId } = useParams()
   const [invoice, setInvoice] = useState<invoice>()
   const [budgetPdf, setBudgetPdf] = useState<responseBudgetPdf>()
-  const [hasInvoice, setHasInvoice] = useState(false)
   const api = new ClientApi()
 
   useEffect(() => {
     requests()
   }, [])
 
+  async function getBudgetInvoice(id: string) {
+    const response = await api.consultBudget({ budgetId: parseInt(id) })
+
+    return response?.notaFiscal
+  }
+
+  async function getPdf(id: string) {
+    const response = await api.budgetPdf({ orcamentoId: id })
+
+    return response
+  }
+
   async function requests() {
-    if (!location.pathname.includes('sale')) return
-
     if (paramBudgetId) {
-      const budgetResponse = await api.consultBudget({ budgetId: parseInt(paramBudgetId) })
-      const pdfResponse = await api.budgetPdf({ orcamentoId: paramBudgetId.toString() })
+      const resp = await getBudgetInvoice(paramBudgetId)
 
-      if (budgetResponse?.id) {
-        setInvoice(budgetResponse.notaFiscal)
+      if (resp) {
+        setInvoice(resp)
 
-        if (invoice?.statusNotaFiscal === 'CONCLUIDO') setHasInvoice(true)
+        if (resp && resp.statusNotaFiscal !== 'PROCESSANDO') {
+          console.log('nao tem nota')
+          const respPdf = await getPdf(paramBudgetId)
 
-        if (pdfResponse) setBudgetPdf(pdfResponse)
+          setBudgetPdf(respPdf)
 
-        if (invoice?.statusNotaFiscal === 'PENDENTE')
-          return  setTimeout(() => {
-            requests()
-          }, 5000)
+          return
+        }
+
+        if (resp && resp.statusNotaFiscal === 'PROCESSANDO') {
+          console.log('tem nota')
+          await new Promise((resolve) => setTimeout(resolve, 5000))
+
+          requests()
+        }
       }
 
     }
@@ -74,62 +86,52 @@ export default function Sale() {
             whiteSpace="nowrap"
             lineHeight='normal'
           >
-            Baixar orçamento
+            Baixar {invoice?.statusNotaFiscal === 'CONCLUIDO' ? 'cupom fiscal' : 'orçamento'}
           </Text>
         </HStack>
-        {hasInvoice ? (
-          <VStack spacing={5} p={4} py={8}>
-            {invoice?.statusNotaFiscal === 'CANCELADO' && (
-              <Alert status='success'>
-                <AlertIcon />
-                Nota fiscal cancelada!
-              </Alert>
-            )}
-            {invoice?.statusNotaFiscal === 'CONCLUIDO' && (
-              <Alert status='success'>
-                <AlertIcon />
-                Cupom fiscal disponível!
-              </Alert>
-            )}
-            {invoice?.statusNotaFiscal === 'ERRO' && (
-              <Alert status='error'>
-                <AlertIcon />
-                Erro ao gerar o cupom fiscal!
-              </Alert>
-            )}
-            {invoice?.statusNotaFiscal === 'PENDENTE' && (
-              <Alert status='info'>
-                <AlertIcon />
-                Cupom fiscal está pendente!
-              </Alert>
-            )}
-            {invoice?.statusNotaFiscal === 'PROCESSANDO' && (
-              <>
-                <SaleProgress done={hasInvoice} />
-                <Alert status='info'>
-                  <AlertIcon />
-                  Nota fiscal sendo processada! Aguarde um pouco para baixar o cumpom fiscal!
-                </Alert>
-              </>
-            )}
-            <Button
-              as="a"
-              id="download"
-              href={`data:application/pdf;base64,${budgetPdf?.base64}`}
-              colorScheme="teal"
-              download={budgetPdf?.nomeArquivo}
-            >
-              Baixar
-            </Button>
-          </VStack>
-        ) : (
-          <VStack w={'full'} p={4} py={8}>
-            <Skeleton w='full' height='20px' />
-            <Skeleton w='full' height='20px' />
-            <Skeleton w='full' height='20px' />
-          </VStack>
-        )}
-
+        <VStack spacing={5} p={4} py={8}>
+          {invoice?.statusNotaFiscal === 'CANCELADO' && (
+            <Alert status='success'>
+              <AlertIcon />
+              Nota fiscal cancelada!
+            </Alert>
+          )}
+          {invoice?.statusNotaFiscal === 'CONCLUIDO' && (
+            <Alert status='success'>
+              <AlertIcon />
+              Cupom fiscal disponível!
+            </Alert>
+          )}
+          {invoice?.statusNotaFiscal === 'ERRO' && (
+            <Alert status='error'>
+              <AlertIcon />
+              Erro ao gerar o cupom fiscal!
+            </Alert>
+          )}
+          {invoice?.statusNotaFiscal === 'PENDENTE' && (
+            <Alert status='info'>
+              <AlertIcon />
+              Cupom fiscal pendente!
+            </Alert>
+          )}
+          {invoice?.statusNotaFiscal === 'PROCESSANDO' && (
+            <Alert status='info'>
+              <AlertIcon />
+              Nota fiscal sendo processada! Aguarde um pouco para baixar o cumpom fiscal!
+            </Alert>
+          )}
+          <Button
+            as="a"
+            id="download"
+            href={`data:application/pdf;base64,${budgetPdf?.base64}`}
+            colorScheme="teal"
+            download={budgetPdf?.nomeArquivo}
+            disabled={invoice?.statusNotaFiscal === 'PROCESSANDO' || !budgetPdf?.base64}
+            isLoading={invoice?.statusNotaFiscal === 'PROCESSANDO' || !budgetPdf?.base64}
+          >
+            Baixar
+          </Button>
+        </VStack>
       </VStack>
     </VStack>
   )
