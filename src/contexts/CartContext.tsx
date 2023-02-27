@@ -11,7 +11,7 @@ interface CartContext {
   addItemProduct(product: product): void
   removeItemProduct(product: product): void
   removeProduct(product: product, hasMessage?: boolean): void
-  clearCart(): void
+  clearCart(hasMessage?: boolean): void
   getProducts(search: string): void
 }
 
@@ -147,15 +147,16 @@ export default function CartProvider({ children }: { children: ReactNode }) {
       })
   }
 
-  function clearCart() {
+  function clearCart(hasMessage?: boolean) {
     setCart([])
 
-    toast({
-      title: 'Carrinho limpo!',
-      description: 'Carrinho limpo com sucesso.',
-      status: 'success',
-      duration: 2000
-    })
+    if (hasMessage)
+      toast({
+        title: 'Carrinho limpo!',
+        description: 'Carrinho limpo com sucesso.',
+        status: 'success',
+        duration: 2000
+      })
   }
 
   const value = useMemo(

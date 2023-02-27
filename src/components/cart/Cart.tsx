@@ -57,7 +57,7 @@ export default function Cart({ onToggleSidepaneDrawer }: CartProps) {
   }
 
   function handleClearCart() {
-    clearCart()
+    clearCart(true)
 
     onToggleSidepaneDrawer()
   }
