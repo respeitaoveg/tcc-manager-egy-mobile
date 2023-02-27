@@ -5,7 +5,7 @@ import CreateCustomer from './pages/customer/create'
 import Home from './pages/home'
 import Login from './pages/login'
 import ResumeCart from './pages/resume-cart'
-import Sale from './pages/Sale'
+import Budget from './pages/budget'
 
 const router = createBrowserRouter([
   {
@@ -34,8 +34,8 @@ const router = createBrowserRouter([
         element: <ResumeCart />
       },
       {
-        path: '/sale/:id',
-        element: <Sale />
+        path: '/budget/:id',
+        element: <Budget />
       }
     ]
   },

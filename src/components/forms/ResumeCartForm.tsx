@@ -74,7 +74,7 @@ export default function ResumeCartForm() {
 
       }
 
-      navigate(`/sale/${response.id}`)
+      navigate(`/budget/${response.id}`)
     }
 
     clearCart()

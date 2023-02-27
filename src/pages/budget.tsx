@@ -12,7 +12,7 @@ import { useParams } from 'react-router-dom'
 import { ClientApi } from '../services/ClientApi'
 import { invoice, responseBudgetPdf } from '../types/api'
 
-export default function Sale() {
+export default function Budget() {
   const { id: paramBudgetId } = useParams()
   const [invoice, setInvoice] = useState<invoice>()
   const [budgetPdf, setBudgetPdf] = useState<responseBudgetPdf>()
@@ -42,16 +42,10 @@ export default function Sale() {
         setInvoice(resp)
 
         if (resp && resp.statusNotaFiscal !== 'PROCESSANDO') {
-          console.log('nao tem nota')
           const respPdf = await getPdf(paramBudgetId)
 
           setBudgetPdf(respPdf)
-
-          return
-        }
-
-        if (resp && resp.statusNotaFiscal === 'PROCESSANDO') {
-          console.log('tem nota')
+        } else {
           await new Promise((resolve) => setTimeout(resolve, 5000))
 
           requests()
