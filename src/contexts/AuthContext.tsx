@@ -4,7 +4,7 @@ import { user } from '../types/api'
 
 interface AuthContext {
   user: user | undefined
-  login(login: string, password: string): Promise<undefined | {error: string}>
+  login(login: string, password: string): void
   logout(): void
 }
 
