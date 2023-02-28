@@ -21,8 +21,6 @@ export default function ResumeCartForm() {
   const toast = useToast()
   const navigate = useNavigate()
 
-  const [hasInvoice, setHasInvoice] = useState(false)
-
   const schema = yup.object().shape({
     bandeira: yup.string().required(),
     formaPagamento: yup.string().required(),
@@ -62,26 +60,19 @@ export default function ResumeCartForm() {
         duration: 2000
       })
 
-      if (hasInvoice && response.id) {
-        const responseInvoice = await api.invoice({ budgetId: response.id.toString() })
+      const responseInvoice = await api.invoice({ budgetId: response.id.toString() })
 
-        if (responseInvoice) toast({
-          title: 'Nota gerada!',
-          description: 'Nota gerada com sucesso.',
-          status: 'success',
-          duration: 5000
-        })
-
-      }
+      if (responseInvoice) toast({
+        title: 'Nota gerada!',
+        description: 'Nota gerada com sucesso.',
+        status: 'success',
+        duration: 5000
+      })
 
       navigate(`/budget/${response.id}`)
     }
 
     clearCart()
-  }
-
-  function handleOnChangeInvoice() {
-    setHasInvoice(!hasInvoice)
   }
 
   return (
@@ -95,16 +86,6 @@ export default function ResumeCartForm() {
         width="100%"
       >
         <Text fontWeight="semibold">Foma de pagamento</Text>
-        <HStack w="full">
-          <FormLabel htmlFor="invoice" mb="0">
-            <Text fontWeight="semibold">Gerar nota fiscal?</Text>
-          </FormLabel>
-          <Switch
-            id="invoice"
-            isChecked={hasInvoice}
-            onChange={handleOnChangeInvoice}
-          />
-        </HStack>
         <MySelect
           id="formaPagamento"
           formLabel="Forma de pagamento"
