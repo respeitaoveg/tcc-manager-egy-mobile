@@ -134,7 +134,12 @@ export class ClientApi implements api {
 
       return response.data
     } catch (error) {
-      console.error(error)
+      toast({
+        title: 'Erro!',
+        description: 'Erro ao requisitar orçamento.',
+        status: 'error',
+        duration: 2000
+      })
     }
   }
 
@@ -144,7 +149,12 @@ export class ClientApi implements api {
 
       return response.data
     } catch (error) {
-      console.error(error)
+      toast({
+        title: 'Erro!',
+        description: 'Erro ao requisitar a consulta do orçamento.',
+        status: 'error',
+        duration: 2000
+      })
     }
   }
 
@@ -154,7 +164,12 @@ export class ClientApi implements api {
 
       return response.data
     } catch (error) {
-      console.error(error)
+      toast({
+        title: 'Erro!',
+        description: 'Erro ao requisitar a nota.',
+        status: 'error',
+        duration: 2000
+      })
     }
   }
 
@@ -179,7 +194,12 @@ export class ClientApi implements api {
 
       return response.data
     } catch (error) {
-      console.error(error)
+      toast({
+        title: 'Erro!',
+        description: 'Erro ao requisitar o pdf.',
+        status: 'error',
+        duration: 2000
+      })
     }
   }
 }
