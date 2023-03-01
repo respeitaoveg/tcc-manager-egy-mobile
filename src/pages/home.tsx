@@ -7,7 +7,7 @@ import { CartContext } from '../contexts/CartContext'
 export default function Home() {
   const { products, getProducts } = useContext(CartContext)
   useEffect(() => {
-    getProducts('trena')
+    getProducts('')
   }, [])
 
   return (
