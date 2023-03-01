@@ -106,9 +106,9 @@ export class ClientApi implements api {
         this.getAxiosConfig()
       )
 
-      const user = response.data?.usuariosAtivos[0]
+      const user = response.data?.usuariosAtivos
 
-      if (user) return user
+      if (user) return user[0]
 
       toast({
         title: 'Erro!',
