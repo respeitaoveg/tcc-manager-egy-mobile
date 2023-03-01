@@ -17,6 +17,7 @@ import { cart } from '../../types/api'
 import { useCustomer } from '../../contexts/CustomerContext'
 import { useNavigate } from 'react-router-dom'
 import { cpfCnpjRegex, msgInvalidCpfCnpj } from '../../utils/validateCpfCnpj'
+import parseOnlyDigits from '../../utils/parseOnlyDigits'
 
 interface CartProps {
   onToggleSidepaneDrawer(): void
@@ -43,7 +44,11 @@ export default function Cart({ onToggleSidepaneDrawer }: CartProps) {
       })
     }
 
-    consultCustomer(customerInput)
+    const loginDigits = parseOnlyDigits(customerInput)
+
+    if (loginDigits) {
+      consultCustomer(loginDigits)
+    }
   }
 
   function createCustomer() {

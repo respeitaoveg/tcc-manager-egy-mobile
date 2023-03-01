@@ -10,6 +10,7 @@ import { useToast } from "@chakra-ui/react"
 import { useCustomer } from "../../contexts/CustomerContext"
 import { useNavigate } from "react-router-dom"
 import { checkCpfCnpj, cpfRegex, msgInvalidCpfCnpj } from "../../utils/validateCpfCnpj"
+import parseOnlyDigits from "../../utils/parseOnlyDigits"
 
 const schema = yup.object().shape({
   nome: yup.string().required('Campo requerido'),
@@ -61,20 +62,26 @@ export default function CreateCustomerForm() {
   })
 
   async function onSubmit(values: CreateCustomeInputs) {
-    values.login = values.cpfCnpj
+    const cpfCnpjDigits = parseOnlyDigits(values.cpfCnpj)
 
-    const response = await createCustomer(values)
+    if (cpfCnpjDigits) {
+      values.login = cpfCnpjDigits
+      values.cpfCnpj = cpfCnpjDigits
 
-    if (response) {
-      toast({
-        title: 'Cliente criado!',
-        description: 'Cliente criado com sucesso.',
-        status: 'success',
-        duration: 2000
-      })
+      const response = await createCustomer(values)
 
-      navigate('/')
+      if (response) {
+        toast({
+          title: 'Cliente criado!',
+          description: 'Cliente criado com sucesso.',
+          status: 'success',
+          duration: 2000
+        })
+
+        navigate('/')
+      }
     }
+
   }
 
   const cepWatch = watch('cep') || ''

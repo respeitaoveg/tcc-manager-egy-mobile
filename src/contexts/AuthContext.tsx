@@ -1,6 +1,7 @@
 import { createContext, ReactNode, useContext, useMemo, useState } from 'react'
 import { ClientApi } from '../services/ClientApi'
 import { user } from '../types/api'
+import parseOnlyDigits from '../utils/parseOnlyDigits'
 
 interface AuthContext {
   user: user | undefined
@@ -16,13 +17,18 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
   const api = new ClientApi()
 
   async function login(login: string, password: string) {
-    const user = await api.login(login, password)
+    const loginDigits = parseOnlyDigits(login)
 
-    if (user?.token) {
-      localStorage.setItem('auth', JSON.stringify(user))
+    if (loginDigits) {
+      const user = await api.login(loginDigits, password)
 
-      setUser(user)
+      if (user?.token) {
+        localStorage.setItem('auth', JSON.stringify(user))
+
+        setUser(user)
+      }
     }
+
   }
 
   function logout() {

@@ -2,6 +2,7 @@ import { createStandaloneToast } from "@chakra-ui/react"
 import { createContext, ReactNode, useContext, useMemo, useState } from "react"
 import { ClientApi } from "../services/ClientApi"
 import { product, cart } from "../types/api"
+import parseMainName from "../utils/parseMainName"
 
 const { toast } = createStandaloneToast()
 
@@ -45,7 +46,7 @@ export default function CartProvider({ children }: { children: ReactNode }) {
 
     const addMessage = () => toast({
       title: 'Adicionado!',
-      description: `Item ${product.nome} adicionado(a) com sucesso!`,
+      description: `Item ${parseMainName(product.nome)} adicionado(a) com sucesso!`,
       status: 'success',
       duration: 2000
     })

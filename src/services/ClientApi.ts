@@ -1,4 +1,4 @@
-import { createStandaloneToast, useToast } from '@chakra-ui/react'
+import { createStandaloneToast } from '@chakra-ui/react'
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios'
 import {
   api,
@@ -179,12 +179,21 @@ export class ClientApi implements api {
 
       return response.data
     } catch (error) {
-      toast({
-        title: 'Erro!',
-        description: 'Erro ao cadastrar cliente.',
-        status: 'error',
-        duration: 2000
-      })
+      if (error?.response?.data?.message) {
+        toast({
+          title: 'Erro!',
+          description: error?.response?.data?.message || 'Login e senha inválidos',
+          status: 'error',
+          duration: 2000
+        })
+      } else {
+        toast({
+          title: 'Erro!',
+          description: 'Erro ao cadastrar cliente.',
+          status: 'error',
+          duration: 2000
+        })
+      }
     }
   }
 
