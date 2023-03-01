@@ -39,15 +39,6 @@ export default function CustomerProvider({
         status: 'success',
         duration: 2000
       })
-    } else {
-      setCustomer(undefined)
-
-      toast({
-        title: 'Não encontrado!',
-        description: 'Cliente não encontrado.',
-        status: 'error',
-        duration: 2000
-      })
     }
   }
 
