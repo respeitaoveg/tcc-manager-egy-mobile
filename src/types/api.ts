@@ -1,6 +1,6 @@
 export interface api {
   login(login: string, password: string): Promise<user | undefined>
-  logout(): Promise<undefined>
+  logout(): Promise<void>
   products(params: any): Promise<product[] | undefined>
 }
 

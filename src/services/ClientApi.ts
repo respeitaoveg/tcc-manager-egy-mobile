@@ -66,7 +66,7 @@ export class ClientApi implements api {
     }
   }
 
-  async logout(): Promise<undefined> {
+  async logout(): Promise<void> {
     try {
       await this._http('/usuario/v1/logoff', this.getAxiosConfig())
 
