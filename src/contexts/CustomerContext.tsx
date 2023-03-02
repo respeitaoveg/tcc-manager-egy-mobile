@@ -31,8 +31,8 @@ export default function CustomerProvider({
 
     const response = await api.consultUser(params)
 
-    if (!customer && response) {
-      setCustomer(response)
+    if (response) {
+      setCustomer({...response})
 
       toast({
         title: 'Encontrado!',
