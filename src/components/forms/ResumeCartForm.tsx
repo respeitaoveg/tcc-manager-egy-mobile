@@ -1,17 +1,14 @@
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm } from 'react-hook-form'
-import { HStack, Text, VStack } from '@chakra-ui/layout'
-import { FormLabel } from '@chakra-ui/form-control'
+import { Text, VStack } from '@chakra-ui/layout'
 import { Button, useToast } from '@chakra-ui/react'
-import { Switch } from '@chakra-ui/switch'
 import { useColorModeValue } from '@chakra-ui/color-mode'
 import { MySelect } from './parts/MySelect'
 import { requestRegisterBudget } from '../../types/api'
 import { useCustomer } from '../../contexts/CustomerContext'
 import { useCart } from '../../contexts/CartContext'
 import { ClientApi } from '../../services/ClientApi'
-import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 export default function ResumeCartForm() {
@@ -22,7 +19,7 @@ export default function ResumeCartForm() {
   const navigate = useNavigate()
 
   const schema = yup.object().shape({
-    bandeira: yup.string().required(),
+    bandeira: yup.string().notRequired(),
     formaPagamento: yup.string().required(),
     clienteId: yup.number().required().default(customer?.id),
     listaProdutoResponse: yup
@@ -43,11 +40,14 @@ export default function ResumeCartForm() {
   const {
     register,
     handleSubmit,
-    formState: { errors }
+    formState: { errors },
+    watch
   } = useForm<requestRegisterBudget>({
     mode: 'onBlur',
     resolver: yupResolver(schema)
   })
+
+  const formaPagamento = watch('formaPagamento')
 
   async function onSubmit(values: requestRegisterBudget) {
     const response = await api.registerBudget(values)
@@ -94,14 +94,16 @@ export default function ResumeCartForm() {
           options={['DINHEIRO', 'CHEQUE', 'CARTAO_CREDITO', 'CARTAO_DEBITO', 'CREDITO_LOJA', 'VALE_ALIMENTACAO', 'VALE_REFEICAO', 'VALE_PRESENTE', 'VALE_COMBUSTIVEL', 'OUTROS']}
           isRequired
         />
-        <MySelect
-          id="bandeira"
-          formLabel="Bandeira"
-          error={errors.bandeira?.message}
-          register={register('bandeira')}
-          options={['MASTERCARD', 'VISA', 'ELO', 'AMERICAN_EXPRESS', 'HIPERCARD']}
-          isRequired
-        />
+        {(formaPagamento === 'CARTAO_CREDITO' || formaPagamento === 'CARTAO_DEBITO') &&
+          <MySelect
+            id="bandeira"
+            formLabel="Bandeira"
+            error={errors.bandeira?.message}
+            register={register('bandeira')}
+            options={['MASTERCARD', 'VISA', 'ELO', 'AMERICAN_EXPRESS', 'HIPERCARD']}
+            isRequired
+          />
+        }
         <Button
           type="submit"
           onClick={handleSubmit(onSubmit)}
