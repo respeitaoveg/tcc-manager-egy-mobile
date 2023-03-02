@@ -68,11 +68,14 @@ export class ClientApi implements api {
 
   async logout(): Promise<undefined> {
     try {
-      const response = await this._http('/usuario/v1/logoff', this.getAxiosConfig())
+      await this._http('/usuario/v1/logoff', this.getAxiosConfig())
 
-      console.log(response)
-
-      return response.data
+      toast({
+        title: 'Sucesso!',
+        description: 'Você foi deslogado.',
+        status: 'success',
+        duration: 2000
+      })
     } catch (error) {
       toast({
         title: 'Erro!',
