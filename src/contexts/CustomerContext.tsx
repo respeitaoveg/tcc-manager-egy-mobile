@@ -2,6 +2,7 @@ import { createStandaloneToast } from '@chakra-ui/react'
 import { createContext, ReactNode, useContext, useMemo, useState } from 'react'
 import { ClientApi } from '../services/ClientApi'
 import { consultUser, requestConsultUser, requestCreateCustomer, responseCreateCustomer } from '../types/api'
+import parseOnlyDigits from '../utils/parseOnlyDigits'
 
 const { toast } = createStandaloneToast()
 
@@ -47,7 +48,7 @@ export default function CustomerProvider({
 
     if (response) {
       setCustomer({
-        cpfCnpj: response.cpfCnpj,
+        cpfCnpj: parseOnlyDigits(response.cpfCnpj),
         id: response.id,
         nome: response.nome,
         roleGNFE: response.roleGD

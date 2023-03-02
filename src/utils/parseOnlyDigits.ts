@@ -1,3 +1,5 @@
 export default function parseOnlyDigits(value: string) {
-  return value.match(/\d+/g)?.join('')
+  const digits = value.match(/\d+/g)?.join('') || ''
+
+  return digits
 }

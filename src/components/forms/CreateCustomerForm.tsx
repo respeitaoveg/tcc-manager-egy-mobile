@@ -9,24 +9,19 @@ import { useEffect, useState } from "react"
 import { useToast } from "@chakra-ui/react"
 import { useCustomer } from "../../contexts/CustomerContext"
 import { useNavigate } from "react-router-dom"
-import { checkCpfCnpj, cpfRegex, dynamicMaskCpfCnpj, msgInvalidCpfCnpj } from "../../utils/validateCpfCnpj"
+import { dynamicMaskCpfCnpj, isValidCPF, msgInvalidCpf } from "../../utils/validateCpfCnpj"
 import parseOnlyDigits from "../../utils/parseOnlyDigits"
 
 const schema = yup.object().shape({
   nome: yup.string().required('Campo requerido'),
-  cpfCnpj: yup.string().required('Campo requerido').when((builder, schema) => {
-    const login = parseOnlyDigits(builder[0])
+  cpfCnpj: yup.string().required('Campo requerido')
+    .test('Login válido', msgInvalidCpf, value => {
+      const login = parseOnlyDigits(value)
 
-    const loginLength = login?.length
+      if (login.length < 12) return isValidCPF(login)
 
-    if (loginLength) {
-      const isValid = checkCpfCnpj(loginLength)
-
-      if (!isValid) return schema.matches(cpfRegex, msgInvalidCpfCnpj)
-    }
-
-    return schema
-  }),
+      return true
+    }),
   email: yup.string().email('Email inválido').required('Campo requerido'),
   codigoIBGE: yup.string(),
   telefone: yup.string().required('Campo requerido'),
@@ -106,7 +101,6 @@ export default function CreateCustomerForm() {
 
       if (digits) {
         const aux = dynamicMaskCpfCnpj(digits)
-        console.log(cpfCnpjWatch)
 
         setMask(aux)
       }
