@@ -67,7 +67,20 @@ export class ClientApi implements api {
   }
 
   async logout(): Promise<undefined> {
-    throw new Error('Method not implemented.')
+    try {
+      const response = await this._http('/usuario/v1/logoff', this.getAxiosConfig())
+
+      console.log(response)
+
+      return response.data
+    } catch (error) {
+      toast({
+        title: 'Erro!',
+        description: error?.response?.data?.message,
+        status: 'error',
+        duration: 2000
+      })
+    }
   }
 
   async products(params?: requestProducts): Promise<product[] | undefined> {

@@ -22,7 +22,7 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
     if (loginDigits) {
       const user = await api.login(loginDigits, password)
 
-      if (user?.token) {
+      if (user && user.token && (user.roleGNFE === 'ADMIN' || user.roleGNFE === 'FUNCIONARIO')) {
         localStorage.setItem('auth', JSON.stringify(user))
 
         setUser(user)
@@ -32,7 +32,11 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
   }
 
   function logout() {
+    api.logout()
+
     setUser(undefined)
+
+    localStorage.setItem('auth', '')
   }
 
   const value = useMemo(

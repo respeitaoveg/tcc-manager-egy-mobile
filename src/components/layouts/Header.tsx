@@ -1,4 +1,4 @@
-import { ReactNode } from 'react'
+import { ReactNode, useContext } from 'react'
 import {
   Box,
   Flex,
@@ -13,7 +13,8 @@ import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons'
 import MyDrawer from '../Drawer'
 import Cart from '../cart/Cart'
 import ResumeCartFooter from '../cart/ResumeCartFooter'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { useAuth } from '../../contexts/AuthContext'
 
 const Links = [
   {
@@ -26,7 +27,8 @@ const Links = [
   },
   {
     label: 'Sair',
-    route: '/login'
+    route: '/login',
+    isLogout: true
   }
 ]
 
@@ -35,9 +37,12 @@ export default function Header() {
   const { isOpen: isOpenSidePaneDrawer, onToggle: onToggleSidepaneDrawer } =
     useDisclosure()
   const navigate = useNavigate()
+  const { logout } = useAuth()
 
-  const NavLink = (props: { children: ReactNode; router: string }) => {
+  const NavLink = (props: { children: ReactNode, router: string, isLogout?: boolean }) => {
     function navigation() {
+      if (props.isLogout) logout()
+
       onClose()
       navigate(props.router)
     }
@@ -71,14 +76,14 @@ export default function Header() {
             onClick={isOpen ? onClose : onOpen}
           />
           <HStack spacing={8} alignItems={'center'}>
-            <Box>EGY</Box>
+            <Link to='/'>EGY</Link>
             <HStack
               as={'nav'}
               spacing={4}
               display={{ base: 'none', md: 'flex' }}
             >
               {Links.map((link, index) => (
-                <NavLink key={index} router={link.route}>
+                <NavLink key={index} router={link.route} isLogout={link.isLogout}>
                   {link.label}
                 </NavLink>
               ))}
@@ -100,7 +105,7 @@ export default function Header() {
           <Box pb={4} display={{ md: 'none' }}>
             <Stack as={'nav'} spacing={4}>
               {Links.map((link, index) => (
-                <NavLink key={index} router={link.route}>
+                <NavLink key={index} router={link.route} isLogout={link.isLogout}>
                   {link.label}
                 </NavLink>
               ))}
