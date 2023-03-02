@@ -4,15 +4,21 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { useColorModeValue, Stack, Button, Box, Text } from '@chakra-ui/react'
 import MyInput from './parts/MyInput'
 import { useAuth } from '../../contexts/AuthContext'
-import { cpfRegex, checkCpfCnpj, msgInvalidCpfCnpj } from '../../utils/validateCpfCnpj'
+import { cpfRegex, checkCpfCnpj, dynamicMaskCpfCnpj, msgInvalidCpfCnpj } from '../../utils/validateCpfCnpj'
+import { useEffect, useState } from 'react'
+import parseOnlyDigits from '../../utils/parseOnlyDigits'
 
 const schema = yup.object().shape({
   login: yup.string().required('Campo requerido').when((builder, schema) => {
-    const aux = builder[0].length
+    const login = parseOnlyDigits(builder[0])
 
-    const isValid = checkCpfCnpj(aux)
+    const loginLength = login?.length
 
-    if (!isValid) return schema.matches(cpfRegex, msgInvalidCpfCnpj)
+    if (loginLength) {
+      const isValid = checkCpfCnpj(loginLength)
+
+      if (!isValid) return schema.matches(cpfRegex, msgInvalidCpfCnpj)
+    }
 
     return schema
   }),
@@ -26,14 +32,30 @@ interface LoginFormInputs {
 
 export default function LoginForm() {
   const { login } = useAuth()
-  const { register, handleSubmit, formState: { errors }} = useForm<LoginFormInputs>({
+  const { register, handleSubmit, formState: { errors }, watch} = useForm<LoginFormInputs>({
     mode: 'onBlur',
     resolver: yupResolver(schema)
   })
+  const [mask, setMask] = useState('')
 
   function onSubmit(values: LoginFormInputs) {
     login(values.login, values.password)
   }
+
+  const loginWatch = watch('login')
+
+  useEffect(() => {
+    if (loginWatch) {
+      const digits = parseOnlyDigits(loginWatch)
+
+      if (digits) {
+        const aux = dynamicMaskCpfCnpj(digits)
+        console.log(loginWatch)
+
+        setMask(aux)
+      }
+    }
+  }, [loginWatch])
 
   return (
     <form>
@@ -51,7 +73,8 @@ export default function LoginForm() {
               type='text'
               formLabel='CPF/CNPJ'
               error={errors.login?.message}
-              register={{...register('login')}}
+              register={register('login')}
+              mask={mask}
               isRequired
             />
             <MyInput

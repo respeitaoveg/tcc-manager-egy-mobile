@@ -5,21 +5,25 @@ import MyInput from "../../components/forms/parts/MyInput"
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm } from "react-hook-form"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useToast } from "@chakra-ui/react"
 import { useCustomer } from "../../contexts/CustomerContext"
 import { useNavigate } from "react-router-dom"
-import { checkCpfCnpj, cpfRegex, msgInvalidCpfCnpj } from "../../utils/validateCpfCnpj"
+import { checkCpfCnpj, cpfRegex, dynamicMaskCpfCnpj, msgInvalidCpfCnpj } from "../../utils/validateCpfCnpj"
 import parseOnlyDigits from "../../utils/parseOnlyDigits"
 
 const schema = yup.object().shape({
   nome: yup.string().required('Campo requerido'),
   cpfCnpj: yup.string().required('Campo requerido').when((builder, schema) => {
-    const aux = builder[0].length
+    const login = parseOnlyDigits(builder[0])
 
-    const isValid = checkCpfCnpj(aux)
+    const loginLength = login?.length
 
-    if (!isValid) return schema.matches(cpfRegex, msgInvalidCpfCnpj)
+    if (loginLength) {
+      const isValid = checkCpfCnpj(loginLength)
+
+      if (!isValid) return schema.matches(cpfRegex, msgInvalidCpfCnpj)
+    }
 
     return schema
   }),
@@ -60,13 +64,18 @@ export default function CreateCustomerForm() {
     mode: 'onBlur',
     resolver: yupResolver(schema)
   })
+  const [mask, setMask] = useState('')
 
   async function onSubmit(values: CreateCustomeInputs) {
     const cpfCnpjDigits = parseOnlyDigits(values.cpfCnpj)
+    const tellDigits = parseOnlyDigits(values.telefone)
+    const cepDigits = parseOnlyDigits(values.cep)
 
-    if (cpfCnpjDigits) {
+    if (cpfCnpjDigits && tellDigits && cepDigits) {
       values.login = cpfCnpjDigits
       values.cpfCnpj = cpfCnpjDigits
+      values.telefone = tellDigits
+      values.cep = cepDigits
 
       const response = await createCustomer(values)
 
@@ -85,13 +94,27 @@ export default function CreateCustomerForm() {
   }
 
   const cepWatch = watch('cep') || ''
+  const cpfCnpjWatch = watch('cpfCnpj')
 
   useEffect(() => {
-    if (cepWatch.length === 8) fillHome()
+    fillHome()
   },[cepWatch])
 
+  useEffect(() => {
+    if (cpfCnpjWatch) {
+      const digits = parseOnlyDigits(cpfCnpjWatch)
+
+      if (digits) {
+        const aux = dynamicMaskCpfCnpj(digits)
+        console.log(cpfCnpjWatch)
+
+        setMask(aux)
+      }
+    }
+  }, [cpfCnpjWatch])
+
   async function fillHome() {
-    const data = await fetch(`https://viacep.com.br/ws/${cepWatch}/json/ `)
+    const data = await fetch(`https://viacep.com.br/ws/${parseOnlyDigits(cepWatch)}/json/ `)
         .then(resp => resp.json())
         .catch(error => console.error(error))
 
@@ -102,7 +125,7 @@ export default function CreateCustomerForm() {
       status: 'error',
       duration: 2000
     })
-
+    34
     toast({
       title: 'CEP encontrado!',
       description: 'CEP encontrado com sucesso.',
@@ -142,6 +165,7 @@ export default function CreateCustomerForm() {
           formLabel='CPF/CNPJ'
           error={errors.cpfCnpj?.message}
           register={{...register('cpfCnpj')}}
+          mask={mask}
           isRequired
         />
         <MyInput
@@ -158,6 +182,7 @@ export default function CreateCustomerForm() {
           formLabel='Telefone'
           error={errors.telefone?.message}
           register={{...register('telefone')}}
+          mask={'(99)99999-9999'}
           isRequired
         />
         <MyInput
@@ -166,6 +191,7 @@ export default function CreateCustomerForm() {
           formLabel='CEP'
           error={errors.cep?.message}
           register={{...register('cep')}}
+          mask={'99.999-999'}
           isRequired
         />
         <MyInput

@@ -4,6 +4,7 @@ import {
   Input,
   FormErrorMessage
 } from '@chakra-ui/react'
+import ReactInputMask from 'react-input-mask'
 
 interface MyInputProps {
   id: string
@@ -12,14 +13,19 @@ interface MyInputProps {
   error: string | undefined
   isRequired?: boolean
   register: any
+  mask?: string
 }
 
 export default function MyInput(props: MyInputProps) {
-  const { id, formLabel, error, isRequired, type, register } = props
+  const { id, formLabel, error, isRequired, type, register, mask } = props
   return (
-    <FormControl id={id} isInvalid={!!error} isRequired={isRequired}>
+    <FormControl isInvalid={!!error} isRequired={isRequired}>
       <FormLabel>{formLabel}</FormLabel>
-      <Input type={type} {...register} />
+      {mask ? (
+        <Input as={ReactInputMask} id={id} mask={mask} maskChar={null} type={type} {...register} />
+      ) : (
+        <Input id={id} type={type} {...register} />
+      )}
       <FormErrorMessage>{error}</FormErrorMessage>
     </FormControl>
   )

@@ -10,15 +10,13 @@ import CustomerProvider from './contexts/CustomerContext'
 
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-  <React.StrictMode>
-    <ChakraProvider>
-      <AuthProvider>
-        <CartProvider>
-          <CustomerProvider>
-            <RouterProvider router={router} />
-          </CustomerProvider>
-        </CartProvider>
-      </AuthProvider>
-    </ChakraProvider>
-  </React.StrictMode>
+  <ChakraProvider>
+    <AuthProvider>
+      <CartProvider>
+        <CustomerProvider>
+          <RouterProvider router={router} />
+        </CustomerProvider>
+      </CartProvider>
+    </AuthProvider>
+  </ChakraProvider>
 )

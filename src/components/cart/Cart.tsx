@@ -16,8 +16,9 @@ import { useCart } from '../../contexts/CartContext'
 import { cart } from '../../types/api'
 import { useCustomer } from '../../contexts/CustomerContext'
 import { useNavigate } from 'react-router-dom'
-import { cpfCnpjRegex, msgInvalidCpfCnpj } from '../../utils/validateCpfCnpj'
+import { cpfCnpjRegex, dynamicMaskCpfCnpj, msgInvalidCpfCnpj } from '../../utils/validateCpfCnpj'
 import parseOnlyDigits from '../../utils/parseOnlyDigits'
+import ReactInputMask from 'react-input-mask'
 
 interface CartProps {
   onToggleSidepaneDrawer(): void
@@ -28,10 +29,19 @@ export default function Cart({ onToggleSidepaneDrawer }: CartProps) {
   const { cart, clearCart } = useCart()
   const { consultCustomer, customer, removeCustomer } = useCustomer()
   const navigate = useNavigate()
+  const [mask, setMask] = useState('999-99')
 
   const [customerInput, setCustomerInput] = useState('')
 
   function handleChangeId(e: ChangeEvent<HTMLInputElement>) {
+    const digits = parseOnlyDigits(e.target.value)
+
+    if (digits) {
+      const aux = dynamicMaskCpfCnpj(digits)
+      setMask(aux)
+    }
+
+
     setCustomerInput(e.target.value)
   }
 
@@ -71,6 +81,9 @@ export default function Cart({ onToggleSidepaneDrawer }: CartProps) {
     <VStack align="stretch" spacing={4}>
       <InputGroup>
         <Input
+          as={ReactInputMask}
+          mask={mask}
+          maskChar={null}
           value={customerInput}
           onChange={handleChangeId}
           pr="4.5rem"
